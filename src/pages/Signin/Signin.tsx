@@ -1,5 +1,6 @@
 import React from 'react';
+import Layout from '../../components/Layout/Layout';
 
 export default function Signin() {
-	return <div>Signin</div>;
+	return <Layout>Signin</Layout>;
 }
