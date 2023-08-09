@@ -3,7 +3,7 @@ import {useShoppingCartContext} from '../../Context';
 import React from 'react';
 
 interface Props {
-	data: Card;
+	data: Product;
 }
 
 export default function Card(props: Props) {

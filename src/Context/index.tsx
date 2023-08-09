@@ -2,13 +2,13 @@ import {useState, useContext} from 'react';
 import {createContext} from 'react';
 
 interface ContextProps {
-	productToShow: Card | undefined;
-	openProductDetail: (product: Card) => void;
+	productToShow: Product | undefined;
+	openProductDetail: (product: Product) => void;
 	closeProductDetail: () => void;
 
-	cartProducts: Card[];
-	addToCart: (product: Card) => void;
-	removeFromCart: (product: Card) => void;
+	cartProducts: Product[];
+	addToCart: (product: Product) => void;
+	removeFromCart: (product: Product) => void;
 
 	isCheckoutSideMenuOpen: boolean;
 	openCheckoutSideMenu: () => void;
@@ -22,13 +22,13 @@ interface ProviderProps {
 }
 
 export const ShoppingCartProvider = (props: ProviderProps) => {
-	const [productToShow, setProductToShow] = useState<Card>();
-	const openProductDetail = (product: Card) => setProductToShow(product);
+	const [productToShow, setProductToShow] = useState<Product>();
+	const openProductDetail = (product: Product) => setProductToShow(product);
 	const closeProductDetail = () => setProductToShow(undefined);
 
-	const [cartProducts, setCartProducts] = useState<Card[]>([]);
-	const addToCart = (product: Card) => setCartProducts([...cartProducts, product]);
-	const removeFromCart = (product: Card) =>
+	const [cartProducts, setCartProducts] = useState<Product[]>([]);
+	const addToCart = (product: Product) => setCartProducts([...cartProducts, product]);
+	const removeFromCart = (product: Product) =>
 		setCartProducts(cartProducts.filter((p) => p.id !== product.id));
 
 	const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState<boolean>(false);

@@ -5,7 +5,7 @@ import ProductDetail from '../../components/ProductDetail/ProductDetail';
 import CheckoutSideMenu from '../../components/CheckoutSideMenu/CheckoutSideMenu';
 
 export default function Home() {
-	const [items, setItems] = useState<Card[]>([]);
+	const [items, setItems] = useState<Product[]>([]);
 
 	useEffect(() => {
 		fetch('https://api.escuelajs.co/api/v1/products')

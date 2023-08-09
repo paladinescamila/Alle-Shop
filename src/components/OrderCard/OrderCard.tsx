@@ -2,7 +2,7 @@ import {XMarkIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 
 interface Props {
-	data: Card;
+	data: Product;
 }
 
 export default function OrderCard(props: Props) {
