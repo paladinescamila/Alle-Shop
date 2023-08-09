@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import {ShoppingBagIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 
 export default function NavBar() {
@@ -60,7 +61,10 @@ export default function NavBar() {
 						Sign in
 					</NavLink>
 				</li>
-				<li>🛒 {count}</li>
+				<li className='flex items-center'>
+					<ShoppingBagIcon className='h-6 w-6 text-black' />
+					<div>{count}</div>
+				</li>
 			</ul>
 		</nav>
 	);

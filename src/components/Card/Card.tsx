@@ -1,4 +1,5 @@
 import React from 'react';
+import {PlusIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 
 interface Props {
@@ -7,14 +8,16 @@ interface Props {
 
 export default function Card(props: Props) {
 	const {title, images, price, category} = props.data;
-	const {count, setCount} = useShoppingCartContext();
+	const {count, setCount, openProductDetail} = useShoppingCartContext();
 
 	const addToCart = () => {
 		setCount(count + 1);
 	};
 
 	return (
-		<div className='bg-white cursor-pointer w-56 h-60 rounded-lg'>
+		<div
+			className='bg-white cursor-pointer w-56 h-60 rounded-lg'
+			onClick={() => openProductDetail(props.data)}>
 			<figure className='relative mb-2 w-full h-4/5'>
 				<span className='absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5'>
 					{category.name}
@@ -23,7 +26,7 @@ export default function Card(props: Props) {
 				<div
 					className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
 					onClick={addToCart}>
-					+
+					<PlusIcon className='h-6 w-6 text-black' />
 				</div>
 			</figure>
 			<p className='flex justify-between'>
