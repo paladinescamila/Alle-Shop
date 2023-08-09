@@ -1,5 +1,6 @@
-import {PlusIcon} from '@heroicons/react/24/solid';
+import {PlusIcon, CheckIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
+import React from 'react';
 
 interface Props {
 	data: Card;
@@ -7,10 +8,16 @@ interface Props {
 
 export default function Card(props: Props) {
 	const {title, images, price, category} = props.data;
-	const {count, setCount, openProductDetail} = useShoppingCartContext();
+	const {openProductDetail, cartProducts, addToCart, openCheckoutSideMenu} = useShoppingCartContext();
+	const productWasAdded = cartProducts.find((product) => product.id === props.data.id);
 
-	const addToCart = () => {
-		setCount(count + 1);
+	const addProductToCart = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		event.stopPropagation();
+		openCheckoutSideMenu();
+
+		if (!productWasAdded) {
+			addToCart(props.data);
+		}
 	};
 
 	return (
@@ -23,9 +30,15 @@ export default function Card(props: Props) {
 				</span>
 				<img src={images[0]} alt='headphones' className='w-full h-full object-cover rounded-lg' />
 				<div
-					className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
-					onClick={addToCart}>
-					<PlusIcon className='h-6 w-6 text-black' />
+					className={`absolute top-0 right-0 flex justify-center items-center w-6 h-6 rounded-full m-2 p-1 border cursor-pointer ${
+						productWasAdded ? 'bg-black' : 'bg-white'
+					}`}
+					onClick={addProductToCart}>
+					{productWasAdded ? (
+						<CheckIcon className='h-6 w-6 text-white' />
+					) : (
+						<PlusIcon className='h-6 w-6 text-black' />
+					)}
 				</div>
 			</figure>
 			<p className='flex justify-between'>
