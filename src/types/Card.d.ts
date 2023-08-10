@@ -14,3 +14,8 @@ type Product = {
 		updatedAt: string;
 	};
 };
+
+type Order = {
+	date: Date;
+	products: Product[];
+};

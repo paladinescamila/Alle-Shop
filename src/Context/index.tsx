@@ -13,6 +13,9 @@ interface ContextProps {
 	isCheckoutSideMenuOpen: boolean;
 	openCheckoutSideMenu: () => void;
 	closeCheckoutSideMenu: () => void;
+
+	orders: Order[];
+	handleCheckout: () => void;
 }
 
 const ShoppingCartContext = createContext<ContextProps>({} as ContextProps);
@@ -35,6 +38,18 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 	const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
 	const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
+	const [orders, setOrders] = useState<Order[]>([]);
+
+	const handleCheckout = () => {
+		const newOrder: Order = {
+			date: new Date(),
+			products: cartProducts,
+		};
+
+		setOrders([...orders, newOrder]);
+		setCartProducts([]);
+	};
+
 	return (
 		<ShoppingCartContext.Provider
 			value={{
@@ -49,10 +64,14 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 				isCheckoutSideMenuOpen,
 				openCheckoutSideMenu,
 				closeCheckoutSideMenu,
+
+				orders,
+				handleCheckout,
 			}}>
 			{props.children}
 		</ShoppingCartContext.Provider>
 	);
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useShoppingCartContext = () => useContext(ShoppingCartContext);

@@ -3,27 +3,29 @@ import {useShoppingCartContext} from '../../Context';
 import React from 'react';
 
 interface Props {
-	data: Product;
+	product: Product;
 }
 
 export default function Card(props: Props) {
-	const {title, images, price, category} = props.data;
-	const {openProductDetail, cartProducts, addToCart, openCheckoutSideMenu} = useShoppingCartContext();
-	const productWasAdded = cartProducts.find((product) => product.id === props.data.id);
+	const {title, images, price, category} = props.product;
+	const {productToShow, openProductDetail, cartProducts, addToCart, openCheckoutSideMenu} =
+		useShoppingCartContext();
+	const productWasAdded = cartProducts.find((product) => product.id === props.product.id);
 
 	const addProductToCart = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		event.stopPropagation();
 		openCheckoutSideMenu();
 
 		if (!productWasAdded) {
-			addToCart(props.data);
+			addToCart(props.product);
 		}
 	};
 
 	return (
 		<div
-			className='bg-white cursor-pointer w-56 h-60 rounded-lg'
-			onClick={() => openProductDetail(props.data)}>
+			className={`bg-white cursor-pointer w-56 h-60 rounded-lg p-2
+			border ${productToShow?.id === props.product.id ? 'border-black' : 'border-white'}`}
+			onClick={() => openProductDetail(props.product)}>
 			<figure className='relative mb-2 w-full h-4/5'>
 				<span className='absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5'>
 					{category.name}
