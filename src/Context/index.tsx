@@ -42,6 +42,7 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 
 	const handleCheckout = () => {
 		const newOrder: Order = {
+			id: new Date().getTime(),
 			date: new Date(),
 			products: cartProducts,
 		};

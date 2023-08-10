@@ -1,5 +1,5 @@
 import {NavLink} from 'react-router-dom';
-import {ShoppingBagIcon} from '@heroicons/react/24/solid';
+import {ShoppingCartIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 
 export default function NavBar() {
@@ -60,8 +60,8 @@ export default function NavBar() {
 						Sign in
 					</NavLink>
 				</li>
-				<li className='flex items-center cursor-pointer' onClick={openCheckoutSideMenu}>
-					<ShoppingBagIcon className='h-6 w-6 text-black' />
+				<li className='flex items-center cursor-pointer gap-1' onClick={openCheckoutSideMenu}>
+					<ShoppingCartIcon className='h-6 w-6 text-black' />
 					<div>{cartProducts.length}</div>
 				</li>
 			</ul>
