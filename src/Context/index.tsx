@@ -1,7 +1,9 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {createContext} from 'react';
 
 interface ContextProps {
+	products: Product[];
+
 	productToShow: Product | undefined;
 	openProductDetail: (product: Product) => void;
 	closeProductDetail: () => void;
@@ -25,6 +27,15 @@ interface ProviderProps {
 }
 
 export const ShoppingCartProvider = (props: ProviderProps) => {
+	const [products, setProducts] = useState<Product[]>([]);
+
+	useEffect(() => {
+		fetch('https://api.escuelajs.co/api/v1/products')
+			.then((response) => response.json())
+			.then((data) => setProducts(data))
+			.catch((error) => console.log(error));
+	}, []);
+
 	const [productToShow, setProductToShow] = useState<Product>();
 	const openProductDetail = (product: Product) => setProductToShow(product);
 	const closeProductDetail = () => setProductToShow(undefined);
@@ -54,6 +65,8 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 	return (
 		<ShoppingCartContext.Provider
 			value={{
+				products,
+				
 				productToShow,
 				openProductDetail,
 				closeProductDetail,
