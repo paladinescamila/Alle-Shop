@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {XMarkIcon, ShoppingCartIcon} from '@heroicons/react/24/solid';
+import {XMarkIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 import OrderCard from '../OrderCard/OrderCard';
 import {getTotalPrice} from '../../utils';
@@ -10,8 +10,8 @@ export default function CheckoutSideMenu() {
 
 	return (
 		<aside
-			className={`w-[360px] h-[calc(100vh-80px)] flex flex-col fixed right-0 border border-black rounded-lg bg-white ${
-				isCheckoutSideMenuOpen ? 'flex' : 'hidden'
+			className={`w-[350px] h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
+				isCheckoutSideMenuOpen ? 'right-0' : 'right-[calc(-350px)]'
 			}`}>
 			<div className='flex justify-between items-center p-6'>
 				<h2 className='font-medium text-xl'>My order</h2>
@@ -24,7 +24,7 @@ export default function CheckoutSideMenu() {
 							<OrderCard key={product.id} product={product} />
 						))}
 					</div>
-					<div className='px-6 mb-6'>
+					<div className='px-6 mb-6 mt-3'>
 						<p className='flex justify-between items-center mb-2'>
 							<span className='font-light'>Total:</span>
 							<span className='font-medium'>
@@ -32,17 +32,14 @@ export default function CheckoutSideMenu() {
 							</span>
 						</p>
 						<Link to='/my-orders/last'>
-							<button
-								className='bg-black py-3 text-white w-full rounded-lg'
-								onClick={handleCheckout}>
+							<button className='bg-black py-3 text-white w-full ' onClick={handleCheckout}>
 								Checkout
 							</button>
 						</Link>
 					</div>
 				</>
 			) : (
-				<div className='flex flex-col items-center justify-center gap-3 flex-1 p-6'>
-					<ShoppingCartIcon className='h-24 w-24 text-black mx-auto' />
+				<div className='flex flex-col items-center justify-center gap-3 flex-1 p-10'>
 					<p className='text-center font-light text-black text-xl'>Your cart is empty</p>
 					<p className='text-center font-light text-gray-400 text-sm'>
 						Looks like you haven't added any products yet.

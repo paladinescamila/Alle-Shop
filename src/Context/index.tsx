@@ -1,8 +1,15 @@
 import {useState, useContext, useEffect} from 'react';
 import {createContext} from 'react';
+import {normalizeText} from '../utils';
 
 interface ContextProps {
 	products: Product[];
+	categories: string[];
+
+	loadingProducts: boolean;
+
+	search: string;
+	setSearch: (search: string) => void;
 
 	productToShow: Product | undefined;
 	openProductDetail: (product: Product) => void;
@@ -27,26 +34,52 @@ interface ProviderProps {
 }
 
 export const ShoppingCartProvider = (props: ProviderProps) => {
+	// Products
 	const [products, setProducts] = useState<Product[]>([]);
+	const [categories, setCategories] = useState<string[]>([]);
+	const [loadingProducts, setLoadingProducts] = useState<boolean>(true);
 
 	useEffect(() => {
 		fetch('https://api.escuelajs.co/api/v1/products')
 			.then((response) => response.json())
-			.then((data) => setProducts(data))
+			.then((data) => {
+				setProducts(data);
+				setLoadingProducts(false);
+
+				const categories = data.map((product: Product) => normalizeText(product.category.name));
+				const uniqueCategories = [...new Set(categories)];
+				const orderedCategories = uniqueCategories.sort();
+				setCategories(orderedCategories as string[]);
+			})
 			.catch((error) => console.log(error));
 	}, []);
 
 	const [productToShow, setProductToShow] = useState<Product>();
-	const openProductDetail = (product: Product) => setProductToShow(product);
+
+	const openProductDetail = (product: Product) => {
+		setProductToShow(product);
+		closeCheckoutSideMenu();
+	};
+
 	const closeProductDetail = () => setProductToShow(undefined);
 
+	// Product search
+	const [search, setSearch] = useState<string>('');
+
+	// Cart
 	const [cartProducts, setCartProducts] = useState<Product[]>([]);
 	const addToCart = (product: Product) => setCartProducts([...cartProducts, product]);
 	const removeFromCart = (product: Product) =>
 		setCartProducts(cartProducts.filter((p) => p.id !== product.id));
 
+	// Checkout
 	const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState<boolean>(false);
-	const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
+
+	const openCheckoutSideMenu = () => {
+		setIsCheckoutSideMenuOpen(true);
+		closeProductDetail();
+	};
+
 	const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
 	const [orders, setOrders] = useState<Order[]>([]);
@@ -60,13 +93,20 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 
 		setOrders([...orders, newOrder]);
 		setCartProducts([]);
+		closeCheckoutSideMenu();
 	};
 
 	return (
 		<ShoppingCartContext.Provider
 			value={{
 				products,
-				
+				categories,
+
+				loadingProducts,
+
+				search,
+				setSearch,
+
 				productToShow,
 				openProductDetail,
 				closeProductDetail,

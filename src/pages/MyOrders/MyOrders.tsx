@@ -11,14 +11,17 @@ export default function MyOrders() {
 
 	return (
 		<Layout>
-			<div className='flex items-center justify-center w-80 mb-4'>
-				<h1 className='font-medium text-xl'>My Orders</h1>
-			</div>
-			{orders?.sort(compare).map((order, index) => (
-				<Link to={`/my-orders/${order.id}`} key={index}>
-					<OrdersCard key={order.id} order={order} />
-				</Link>
-			))}
+			{orders.length ? (
+				orders.sort(compare).map((order, index) => (
+					<Link to={`/my-orders/${order.id}`} key={index}>
+						<OrdersCard key={order.id} order={order} />
+					</Link>
+				))
+			) : (
+				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
+					You have no orders yet.
+				</div>
+			)}
 		</Layout>
 	);
 }
