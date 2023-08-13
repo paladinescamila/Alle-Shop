@@ -1,17 +1,12 @@
+import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {ShoppingCartIcon, MagnifyingGlassIcon} from '@heroicons/react/24/solid';
+import {ShoppingCartIcon, Bars2Icon, XMarkIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
+import {useResponsive} from '../../utils';
 
 export default function NavBar() {
-	const {
-		categories,
-		cartProducts,
-		isCheckoutSideMenuOpen,
-		openCheckoutSideMenu,
-		closeCheckoutSideMenu,
-		search,
-		setSearch,
-	} = useShoppingCartContext();
+	const {categories, cartProducts, isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} =
+		useShoppingCartContext();
 
 	const openCloseCheckoutSideMenu = () => {
 		if (isCheckoutSideMenuOpen) closeCheckoutSideMenu();
@@ -24,53 +19,93 @@ export default function NavBar() {
 		return isActive ? `${mainStyle} ${activeStyle}` : mainStyle;
 	};
 
+	const {isTablet, isSmallTablet, isMobile} = useResponsive();
+
+	const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+	const openMobileMenu = () => setShowMobileMenu(true);
+	const closeMobileMenu = () => setShowMobileMenu(false);
+
 	return (
-		<nav className='flex justify-between items-center gap-10 fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-white border-b border-black'>
+		<nav
+			className={`flex justify-between items-center gap-10 fixed z-10 top-0 w-full py-5 ${
+				isTablet || isSmallTablet || isMobile ? 'px-5' : 'px-10'
+			} text-sm font-light bg-white border-b border-black`}>
 			<ul className='flex items-center gap-5'>
 				<li className='font-semibold text-lg'>
 					<NavLink to='/'>Shopi</NavLink>
 				</li>
-				<li>
-					<NavLink to='/' className={optionClassName}>
-						All
-					</NavLink>
-				</li>
-				{categories.map((category) => (
-					<li key={category}>
-						<NavLink to={`/${category}`} className={optionClassName}>
-							{category.charAt(0).toUpperCase() + category.slice(1)}
-						</NavLink>
-					</li>
-				))}
+				{!isSmallTablet && !isMobile && (
+					<>
+						<li>
+							<NavLink to='/' className={optionClassName}>
+								All
+							</NavLink>
+						</li>
+						{categories.slice(0, 5).map((category) => (
+							<li key={category}>
+								<NavLink to={`/${category}`} className={optionClassName}>
+									{category.charAt(0).toUpperCase() + category.slice(1)}
+								</NavLink>
+							</li>
+						))}
+					</>
+				)}
 			</ul>
-			<div className='w-full relative'>
-				<input
-					type='text'
-					placeholder='Search'
-					className='w-full p-2 pl-9 focus:outline-none font-light transition-colors duration-300 bg-gray-100 border-b border-transparent focus:border-gray-300'
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-				/>
-				<MagnifyingGlassIcon className='w-5 h-full text-gray-400 absolute left-2 top-0 my-auto' />
-			</div>
 			<ul className='flex items-center gap-5'>
-				<li>
-					<NavLink to='my-orders' className={optionClassName}>
-						My orders
-					</NavLink>
-				</li>
-				<li>
-					<NavLink to='signin' className={optionClassName}>
-						Sign in
-					</NavLink>
-				</li>
+				{!isTablet && !isSmallTablet && !isMobile && (
+					<>
+						<li>
+							<NavLink to='my-orders' className={optionClassName}>
+								My orders
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to='signin' className={optionClassName}>
+								Sign in
+							</NavLink>
+						</li>
+					</>
+				)}
 				<li className='flex items-center cursor-pointer gap-1' onClick={openCloseCheckoutSideMenu}>
 					<ShoppingCartIcon className='h-5 w-5 text-black' />
 					<div className={`font-medium ${cartProducts.length ? 'flex' : 'hidden'}`}>
 						{cartProducts.length}
 					</div>
 				</li>
+				{(isTablet || isSmallTablet || isMobile) && (
+					<Bars2Icon className='h-5 w-5 text-black cursor-pointer' onClick={openMobileMenu} />
+				)}
 			</ul>
+
+			<div
+				className={`w-[70vw] h-[100vh] flex flex-col items-end fixed top-0 py-6 px-5 bg-white border-l border-black transition-all duration-300 ${
+					(isTablet || isSmallTablet || isMobile) && showMobileMenu ? 'right-0' : 'right-[-70vw]'
+				}`}>
+				<XMarkIcon className='h-5 w-5 mb-20 text-black cursor-pointer' onClick={closeMobileMenu} />
+				{(isSmallTablet || isMobile) && (
+					<ul className='w-[70%] mx-auto flex flex-col items-center justify-center gap-5 pb-10 border-b border-gray-300 mb-10'>
+						{categories.map((category) => (
+							<li key={category} onClick={closeMobileMenu}>
+								<NavLink to={`/${category}`} className={optionClassName}>
+									{category.charAt(0).toUpperCase() + category.slice(1)}
+								</NavLink>
+							</li>
+						))}
+					</ul>
+				)}
+				<ul className='w-[70%] mx-auto flex flex-col items-center justify-center gap-5'>
+					<li onClick={closeMobileMenu}>
+						<NavLink to='my-orders' className={optionClassName}>
+							My orders
+						</NavLink>
+					</li>
+					<li onClick={closeMobileMenu}>
+						<NavLink to='signin' className={optionClassName}>
+							Sign in
+						</NavLink>
+					</li>
+				</ul>
+			</div>
 		</nav>
 	);
 }

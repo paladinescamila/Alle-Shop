@@ -8,9 +8,6 @@ interface ContextProps {
 
 	loadingProducts: boolean;
 
-	search: string;
-	setSearch: (search: string) => void;
-
 	productToShow: Product | undefined;
 	openProductDetail: (product: Product) => void;
 	closeProductDetail: () => void;
@@ -46,10 +43,21 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 				setProducts(data);
 				setLoadingProducts(false);
 
-				const categories = data.map((product: Product) => normalizeText(product.category.name));
-				const uniqueCategories = [...new Set(categories)];
-				const orderedCategories = uniqueCategories.sort();
-				setCategories(orderedCategories as string[]);
+				const categoriesMap: {[key: string]: number} = {};
+
+				for (let i = 0; i < data.length; i++) {
+					const product = data[i];
+					const categoryName = normalizeText(product.category.name);
+
+					if (categoriesMap[categoryName]) categoriesMap[categoryName]++;
+					else categoriesMap[categoryName] = 1;
+				}
+
+				const categoriesList = Object.keys(categoriesMap).sort((a, b) => {
+					return categoriesMap[b] - categoriesMap[a];
+				});
+
+				setCategories(categoriesList);
 			})
 			.catch((error) => console.log(error));
 	}, []);
@@ -62,9 +70,6 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 	};
 
 	const closeProductDetail = () => setProductToShow(undefined);
-
-	// Product search
-	const [search, setSearch] = useState<string>('');
 
 	// Cart
 	const [cartProducts, setCartProducts] = useState<Product[]>([]);
@@ -103,9 +108,6 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 				categories,
 
 				loadingProducts,
-
-				search,
-				setSearch,
 
 				productToShow,
 				openProductDetail,

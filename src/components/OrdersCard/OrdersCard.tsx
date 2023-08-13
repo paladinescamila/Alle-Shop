@@ -11,7 +11,7 @@ export default function OrdersCard(props: Props) {
 	const totalProducts = products.length;
 
 	return (
-		<div className='flex justify-between items-center mb-3 border border-black w-80 p-4 hover:bg-gray-100 transition-colors duration-100'>
+		<div className='flex justify-between items-center mb-3 border border-black/20 w-80 p-4 hover:border-black transition-colors duration-300'>
 			<p className='flex flex-col'>
 				<span className='font-light'>{date.toLocaleDateString()}</span>
 				<span className='font-light'>

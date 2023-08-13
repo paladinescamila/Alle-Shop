@@ -27,17 +27,22 @@ export default function MyOrder() {
 				</Link>
 				<h1 className='font-medium text-xl'>My Order</h1>
 			</div>
+			{order && (
+				<p className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border bg-gray-100'>
+					<p className='font-light flex flex-col'>
+						<span className='text-lg'>{order.date.toLocaleDateString()}</span>
+						<span className='text-xs text-black/50'>{order.date.toLocaleTimeString()}</span>
+					</p>
+					<span className='font-medium text-xl'>
+						${getTotalPrice(order.products).toLocaleString()}
+					</span>
+				</p>
+			)}
 			<div className='flex flex-col w-80'>
 				{order?.products.map((product) => (
 					<OrderCard key={product.id} product={product} type='order' />
 				))}
 			</div>
-			{order && (
-				<p className='flex justify-between items-center mb-2 w-80 mt-auto'>
-					<span className='font-light'>Total:</span>
-					<span className='font-medium'>${getTotalPrice(order.products).toLocaleString()}</span>
-				</p>
-			)}
 		</Layout>
 	);
 }

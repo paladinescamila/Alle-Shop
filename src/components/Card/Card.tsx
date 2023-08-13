@@ -1,6 +1,7 @@
+import React from 'react';
 import {PlusIcon, CheckIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
-import React from 'react';
+import {useResponsive} from '../../utils';
 
 interface Props {
 	product: Product;
@@ -40,6 +41,8 @@ export default function Card(props: Props) {
 		}
 	};
 
+	const {isDesktop} = useResponsive();
+
 	return (
 		<div
 			className={`cursor-pointer w-60 border transition-all duration-300 group ${
@@ -47,18 +50,22 @@ export default function Card(props: Props) {
 			}`}
 			onClick={openProduct}>
 			<figure className='relative mb-2'>
-				<span className='absolute bottom-0 left-0 bg-white/70 text-black text-xs m-2 px-3 py-0.5 rounded-lg'>
+				<span className='absolute bottom-0 left-0 bg-black/50 text-white text-xs m-2 px-3 py-0.5 rounded-full'>
 					{category.name}
 				</span>
 				<img src={images[0]} alt={title} className='w-full h-60 object-cover' />
 				<div
 					className={`absolute top-2 right-2 ${
-						productWasAdded ? 'flex' : 'hidden'
+						productWasAdded ? 'flex' : isDesktop ? 'hidden' : 'flex'
 					} justify-center items-center h-6 cursor-pointer group-hover:flex ${
 						productWasAdded ? 'bg-black' : 'bg-white'
 					}`}
 					onClick={addOrRemoveToCart}>
-					{productWasAdded ? null : <p className='text-sm font-light mx-1'>Add to cart</p>}
+					{productWasAdded ? null : (
+						<p className={`text-sm font-light mx-1 ${isDesktop ? 'flex' : 'hidden'}`}>
+							Add to cart
+						</p>
+					)}
 					{productWasAdded ? (
 						<CheckIcon className='h-6 w-6 text-white' />
 					) : (

@@ -2,16 +2,24 @@ import {Link} from 'react-router-dom';
 import {XMarkIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
 import OrderCard from '../OrderCard/OrderCard';
-import {getTotalPrice} from '../../utils';
+import {getTotalPrice, useResponsive} from '../../utils';
 
 export default function CheckoutSideMenu() {
 	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartProducts, handleCheckout} =
 		useShoppingCartContext();
 
+	const {isMobile} = useResponsive();
+
 	return (
 		<aside
-			className={`w-[350px] h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
-				isCheckoutSideMenuOpen ? 'right-0' : 'right-[calc(-350px)]'
+			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
+				isMobile ? 'w-full h-[100vh] border-none z-30' : 'w-[350px]'
+			} ${
+				isCheckoutSideMenuOpen
+					? 'right-0'
+					: isMobile
+					? 'bottom-[calc(-100vh)]'
+					: 'right-[calc(-350px)]'
 			}`}>
 			<div className='flex justify-between items-center p-6'>
 				<h2 className='font-medium text-xl'>My order</h2>
@@ -39,12 +47,9 @@ export default function CheckoutSideMenu() {
 					</div>
 				</>
 			) : (
-				<div className='flex flex-col items-center justify-center gap-3 flex-1 p-10'>
-					<p className='text-center font-light text-black text-xl'>Your cart is empty</p>
-					<p className='text-center font-light text-gray-400 text-sm'>
-						Looks like you haven't added any products yet.
-					</p>
-				</div>
+				<p className='flex items-center justify-center flex-1 p-10 text-center font-light text-gray-500 text-xl'>
+					Your cart is empty
+				</p>
 			)}
 		</aside>
 	);

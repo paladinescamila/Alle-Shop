@@ -1,5 +1,6 @@
 import {XMarkIcon, PlusIcon, MinusIcon} from '@heroicons/react/24/solid';
 import {useShoppingCartContext} from '../../Context';
+import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
 	const {cartProducts, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
@@ -14,11 +15,13 @@ export default function ProductDetail() {
 		else addToCart(productToShow);
 	};
 
+	const {isMobile} = useResponsive();
+
 	return (
 		<aside
-			className={`w-[350px] h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 ${
-				productToShow ? 'right-0' : 'right-[calc(-350px)]'
-			}`}>
+			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 ${
+				isMobile ? 'w-full h-[100vh] border-none z-30' : 'w-[350px]'
+			} ${productToShow ? 'right-0' : isMobile ? 'bottom-[calc(-100vh)]' : 'right-[calc(-350px)]'}`}>
 			<div className='flex justify-between items-center pb-6'>
 				<h2 className='font-medium text-xl'>Detail</h2>
 				<XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={closeProductDetail} />

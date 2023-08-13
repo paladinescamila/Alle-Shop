@@ -1,3 +1,5 @@
+import {useEffect, useState} from 'react';
+
 /**
  * This function returns the total price of all products
  * @param {Product[]} products - array of products
@@ -19,3 +21,21 @@ export const normalizeText = (text: string) =>
 		.replace(/[\u0300-\u036f]/g, '') // Delete special characters
 		.replace(/\s+/g, '') // Delete spaces
 		.toLowerCase(); // Change to lowercase
+
+export const useResponsive = () => {
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+	const isDesktop = windowWidth >= 1100;
+	const isSmallDesktop = windowWidth >= 800 && windowWidth < 1100;
+	const isTablet = windowWidth >= 700 && windowWidth < 800;
+	const isSmallTablet = windowWidth >= 600 && windowWidth < 700;
+	const isMobile = windowWidth < 600;
+
+	useEffect(() => {
+		const handleResize = () => setWindowWidth(window.innerWidth);
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
+	return {isDesktop, isSmallDesktop, isTablet, isSmallTablet, isMobile};
+};
