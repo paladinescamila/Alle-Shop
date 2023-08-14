@@ -8,13 +8,13 @@ interface Props {
 
 export default function OrderCard(props: Props) {
 	const {product, type = 'cart'} = props;
-	const {title, price, images} = product;
+	const {title, price, image} = product;
 	const {removeFromCart} = useShoppingCartContext();
 
 	return (
 		<div className='grid grid-cols-[70px_1fr_20px] items-center mb-2 gap-2'>
-			<figure>
-				<img src={images[0]} alt={title} className='w-[70px] h-[70px] object-cover' />
+			<figure className='w-[70px] h-[70px] flex items-center justify-center p-1'>
+				<img src={image} alt={title} className='max-w-full max-h-full' />
 			</figure>
 			<p className='flex flex-col'>
 				<span className='text-sm font-light'>{title}</span>

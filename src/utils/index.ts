@@ -22,6 +22,14 @@ export const normalizeText = (text: string) =>
 		.replace(/\s+/g, '') // Delete spaces
 		.toLowerCase(); // Change to lowercase
 
+/**
+ * This function changes the first letter of the text to uppercase
+ * @param {string} text - text to format
+ * @returns {string} formatted text
+ */
+export const formatText = (text: string) =>
+	text.length > 0 ? text[0].charAt(0).toUpperCase() + text.slice(1) : '';
+
 export const useResponsive = () => {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 

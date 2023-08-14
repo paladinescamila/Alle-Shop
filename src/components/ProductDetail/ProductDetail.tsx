@@ -3,8 +3,15 @@ import {useShoppingCartContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
-	const {cartProducts, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
-		useShoppingCartContext();
+	const {
+		cartProducts,
+		productToShow,
+		closeProductDetail,
+		addToCart,
+		removeFromCart,
+		openCheckoutSideMenu,
+		categories,
+	} = useShoppingCartContext();
 	const productInCart = cartProducts.find((product) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
@@ -16,10 +23,11 @@ export default function ProductDetail() {
 	};
 
 	const {isMobile} = useResponsive();
+	const categoryNumber = productToShow ? categories[productToShow.category].colorIndex + 1 : 1;
 
 	return (
 		<aside
-			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 ${
+			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 overflow-scroll ${
 				isMobile ? 'w-full h-[100vh] border-none z-30' : 'w-[350px]'
 			} ${productToShow ? 'right-0' : isMobile ? 'bottom-[calc(-100vh)]' : 'right-[calc(-350px)]'}`}>
 			<div className='flex justify-between items-center pb-6'>
@@ -28,20 +36,19 @@ export default function ProductDetail() {
 			</div>
 			{productToShow && (
 				<>
-					<figure className='relative'>
+					<figure className='flex justify-center items-center w-full h-60 p-1'>
 						<img
-							src={productToShow.images[0]}
+							src={productToShow.image}
 							alt={productToShow.title}
-							className='w-full max-h-96 object-cover '
+							className='max-w-full max-h-full'
 						/>
-						<span className='absolute bottom-0 left-0 bg-white/70 rounded-xl text-black text-xs m-2 px-3 py-0.5'>
-							{productToShow.category.name}
-						</span>
 					</figure>
-					<p className='flex flex-col py-3'>
-						<span className='font-medium text-2xl mb-2'>${productToShow.price}</span>
-						<span className='font-medium text-2md mb-2'>{productToShow.title}</span>
-						<span className='font-light text-sm'>{productToShow.description}</span>
+					<p className='flex flex-col gap-2 py-3'>
+						<span className='font-medium text-2xl'>${productToShow.price}</span>
+						<span className='font-medium text-2md'>{productToShow.title}</span>
+						<span className={`text-xs px-2 py-0.5 rounded-full w-max category-${categoryNumber}`}>
+							{categories[productToShow.category].name}
+						</span>
 						<span className='font-light text-sm'>{productToShow.description}</span>
 					</p>
 					<button

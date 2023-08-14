@@ -41,13 +41,15 @@ export default function NavBar() {
 								All
 							</NavLink>
 						</li>
-						{categories.slice(0, 5).map((category) => (
-							<li key={category}>
-								<NavLink to={`/${category}`} className={optionClassName}>
-									{category.charAt(0).toUpperCase() + category.slice(1)}
-								</NavLink>
-							</li>
-						))}
+						{Object.values(categories)
+							.slice(0, 5)
+							.map((category) => (
+								<li key={category.id}>
+									<NavLink to={`/${category.id}`} className={optionClassName}>
+										{category.name}
+									</NavLink>
+								</li>
+							))}
 					</>
 				)}
 			</ul>
@@ -60,8 +62,8 @@ export default function NavBar() {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink to='signin' className={optionClassName}>
-								Sign in
+							<NavLink to='my-account' className={optionClassName}>
+								My account
 							</NavLink>
 						</li>
 					</>
@@ -84,10 +86,10 @@ export default function NavBar() {
 				<XMarkIcon className='h-5 w-5 mb-20 text-black cursor-pointer' onClick={closeMobileMenu} />
 				{(isSmallTablet || isMobile) && (
 					<ul className='w-[70%] mx-auto flex flex-col items-center justify-center gap-5 pb-10 border-b border-gray-300 mb-10'>
-						{categories.map((category) => (
-							<li key={category} onClick={closeMobileMenu}>
-								<NavLink to={`/${category}`} className={optionClassName}>
-									{category.charAt(0).toUpperCase() + category.slice(1)}
+						{Object.values(categories).map((category) => (
+							<li key={category.id} onClick={closeMobileMenu}>
+								<NavLink to={`/${category.id}`} className={optionClassName}>
+									{category.name}
 								</NavLink>
 							</li>
 						))}

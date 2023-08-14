@@ -1,10 +1,9 @@
-import {useState, useContext, useEffect} from 'react';
-import {createContext} from 'react';
-import {normalizeText} from '../utils';
+import {useState, useContext, useEffect, createContext} from 'react';
+import {normalizeText, formatText} from '../utils';
 
 interface ContextProps {
 	products: Product[];
-	categories: string[];
+	categories: Categories;
 
 	loadingProducts: boolean;
 
@@ -33,31 +32,47 @@ interface ProviderProps {
 export const ShoppingCartProvider = (props: ProviderProps) => {
 	// Products
 	const [products, setProducts] = useState<Product[]>([]);
-	const [categories, setCategories] = useState<string[]>([]);
+	const [categories, setCategories] = useState<Categories>({});
 	const [loadingProducts, setLoadingProducts] = useState<boolean>(true);
 
 	useEffect(() => {
-		fetch('https://api.escuelajs.co/api/v1/products')
+		fetch('https://fakestoreapi.com/products')
 			.then((response) => response.json())
 			.then((data) => {
-				setProducts(data);
+				// Products
+				const newProducts: Product[] = data.map((product: Product) => ({
+					...product,
+					category: normalizeText(product.category),
+				}));
+
+				setProducts(newProducts);
 				setLoadingProducts(false);
 
-				const categoriesMap: {[key: string]: number} = {};
+				// Categories
+				const map: {[key: string]: number} = {};
 
 				for (let i = 0; i < data.length; i++) {
-					const product = data[i];
-					const categoryName = normalizeText(product.category.name);
+					const category = data[i].category;
 
-					if (categoriesMap[categoryName]) categoriesMap[categoryName]++;
-					else categoriesMap[categoryName] = 1;
+					if (map[category]) map[category]++;
+					else map[category] = 1;
 				}
 
-				const categoriesList = Object.keys(categoriesMap).sort((a, b) => {
-					return categoriesMap[b] - categoriesMap[a];
+				const list = Object.keys(map).sort((a, b) => {
+					return map[b] - map[a];
 				});
 
-				setCategories(categoriesList);
+				const newCategories: Categories = {};
+
+				for (const [index, category] of list.entries()) {
+					newCategories[normalizeText(category)] = {
+						id: normalizeText(category),
+						name: formatText(category),
+						colorIndex: index,
+					};
+				}
+
+				setCategories(newCategories);
 			})
 			.catch((error) => console.log(error));
 	}, []);
@@ -77,7 +92,7 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 	const removeFromCart = (product: Product) =>
 		setCartProducts(cartProducts.filter((p) => p.id !== product.id));
 
-	// Checkout
+	// Checkout side menu
 	const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState<boolean>(false);
 
 	const openCheckoutSideMenu = () => {
@@ -87,6 +102,7 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 
 	const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
+	// Orders
 	const [orders, setOrders] = useState<Order[]>([]);
 
 	const handleCheckout = () => {

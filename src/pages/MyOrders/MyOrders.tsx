@@ -52,11 +52,6 @@ export default function MyOrders() {
 				<h1 className='font-medium text-xl mb-5'>My orders</h1>
 			)}
 			{orders.length ? (
-				// (orders.sort(compare).map((order, index) => (
-				// 		<Link to={`/my-orders/${order.id}`} key={index}>
-				// 			<OrdersCard key={order.id} order={order} />
-				// 		</Link>
-				// 	)))
 				<div>
 					{todaysOrders.length > 0 && (
 						<>

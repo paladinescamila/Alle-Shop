@@ -21,7 +21,7 @@ const AppRoutes = () => {
 		{path: '/', element: <ProductsList />},
 
 		// Categories
-		...categories.map((category) => ({
+		...Object.keys(categories).map((category) => ({
 			path: `/${category}`,
 			element: <ProductsList />,
 		})),

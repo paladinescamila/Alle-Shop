@@ -20,11 +20,10 @@ export default function ProductsList() {
 
 			searchedProducts = products.filter((product) => {
 				const normalizedTitle = normalizeText(product.title);
-				const normalizedCategoryName = normalizeText(product.category.name);
-				return (
-					normalizedTitle.includes(normalizedSearch) ||
-					normalizedCategoryName.includes(normalizedSearch)
-				);
+				const normalizedCategoryName = normalizeText(product.category);
+				const matchName = normalizedTitle.includes(normalizedSearch);
+				const matchCategory = normalizedCategoryName.includes(normalizedSearch);
+				return matchName || matchCategory;
 			});
 		} else {
 			searchedProducts = products;
@@ -33,14 +32,14 @@ export default function ProductsList() {
 		const currentPath = window.location.pathname;
 		const subPath = currentPath.split('/')[1];
 
-		if (categories.includes(normalizeText(subPath))) {
+		if (Object.keys(categories).includes(normalizeText(subPath))) {
 			setCurrentCategory(subPath.charAt(0).toUpperCase() + subPath.slice(1));
 
 			setProductsToShow(
 				searchedProducts.filter((product) => {
-					const normalizedCategoryName = normalizeText(product.category.name);
+					const normalizedCategoryName = normalizeText(product.category);
 					const normalizedSubPath = normalizeText(subPath);
-					return normalizedCategoryName.includes(normalizedSubPath);
+					return normalizedCategoryName === normalizedSubPath;
 				})
 			);
 		} else {
@@ -59,7 +58,7 @@ export default function ProductsList() {
 				<input
 					type='text'
 					placeholder='Search'
-					className='w-full p-2 pl-9 focus:outline-none font-light transition-colors duration-300 bg-white border border-gray-300 focus:bg-gray-100'
+					className='w-full p-2 pl-9 focus:outline-none font-light transition-colors duration-300 bg-white border border-gray-300 focus:bg-gray-50'
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
 				/>

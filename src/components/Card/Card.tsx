@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-	const {title, images, price, category} = props.product;
+	const {title, image, price, category} = props.product;
 	const {
 		productToShow,
 		openProductDetail,
@@ -17,6 +17,7 @@ export default function Card(props: Props) {
 		addToCart,
 		removeFromCart,
 		openCheckoutSideMenu,
+		categories,
 	} = useShoppingCartContext();
 	const productWasAdded = cartProducts.find((product) => product.id === props.product.id);
 	const productIsSelected = productToShow?.id === props.product.id;
@@ -42,6 +43,7 @@ export default function Card(props: Props) {
 	};
 
 	const {isDesktop} = useResponsive();
+	const categoryNumber = categories[props.product.category].colorIndex + 1;
 
 	return (
 		<div
@@ -50,12 +52,15 @@ export default function Card(props: Props) {
 			}`}
 			onClick={openProduct}>
 			<figure className='relative mb-2'>
-				<span className='absolute bottom-0 left-0 bg-black/50 text-white text-xs m-2 px-3 py-0.5 rounded-full'>
-					{category.name}
+				<span
+					className={`absolute bottom-0 left-0 text-xs m-2 px-2 py-0.5 rounded-full category-${categoryNumber}`}>
+					{categories[category].name}
 				</span>
-				<img src={images[0]} alt={title} className='w-full h-60 object-cover' />
+				<div className='flex justify-center items-center w-full h-60 p-1'>
+					<img src={image} alt={title} className='max-w-full max-h-full' />
+				</div>
 				<div
-					className={`absolute top-2 right-2 ${
+					className={`absolute top-2 right-2 border border-gray-300 ${
 						productWasAdded ? 'flex' : isDesktop ? 'hidden' : 'flex'
 					} justify-center items-center h-6 cursor-pointer group-hover:flex ${
 						productWasAdded ? 'bg-black' : 'bg-white'
