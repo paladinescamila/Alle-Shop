@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ShoppingCartIcon, Bars2Icon, XMarkIcon} from '@heroicons/react/24/solid';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
 export default function NavBar() {
 	const {categories, cartProducts, isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} =
-		useShoppingCartContext();
+		useShopiContext();
 
 	const openCloseCheckoutSideMenu = () => {
 		if (isCheckoutSideMenuOpen) closeCheckoutSideMenu();

@@ -1,5 +1,5 @@
 import {XMarkIcon} from '@heroicons/react/24/solid';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 
 interface Props {
 	product: Product;
@@ -9,7 +9,7 @@ interface Props {
 export default function OrderCard(props: Props) {
 	const {product, type = 'cart'} = props;
 	const {title, price, image} = product;
-	const {removeFromCart} = useShoppingCartContext();
+	const {removeFromCart} = useShopiContext();
 
 	return (
 		<div className='grid grid-cols-[70px_1fr_20px] items-center mb-2 gap-2'>

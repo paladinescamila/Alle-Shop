@@ -1,6 +1,7 @@
 import React from 'react';
-import {PlusIcon, CheckIcon} from '@heroicons/react/24/solid';
-import {useShoppingCartContext} from '../../Context';
+import {PlusIcon, CheckIcon, HeartIcon as SolidHeartIcon} from '@heroicons/react/24/solid';
+import {HeartIcon} from '@heroicons/react/24/outline';
+import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
 interface Props {
@@ -18,9 +19,13 @@ export default function Card(props: Props) {
 		removeFromCart,
 		openCheckoutSideMenu,
 		categories,
-	} = useShoppingCartContext();
+		favorites,
+		addFavorite,
+		removeFavorite,
+	} = useShopiContext();
 	const productWasAdded = cartProducts.find((product) => product.id === props.product.id);
 	const productIsSelected = productToShow?.id === props.product.id;
+	const productIsFavorite = favorites.includes(props.product);
 
 	const openProduct = () => {
 		closeProductDetail();
@@ -58,6 +63,28 @@ export default function Card(props: Props) {
 				</span>
 				<div className='flex justify-center items-center w-full h-60 p-1'>
 					<img src={image} alt={title} className='max-w-full max-h-full' />
+				</div>
+				<div
+					className={`absolute top-2 left-2 bg-white rounded-full p-1 ${
+						productIsFavorite ? 'flex' : 'hidden group-hover:flex'
+					}`}>
+					{productIsFavorite ? (
+						<SolidHeartIcon
+							className='h-6 w-6 text-red-500'
+							onClick={(event) => {
+								event.stopPropagation();
+								removeFavorite(props.product);
+							}}
+						/>
+					) : (
+						<HeartIcon
+							className='h-6 w-6 text-black'
+							onClick={(event) => {
+								event.stopPropagation();
+								addFavorite(props.product);
+							}}
+						/>
+					)}
 				</div>
 				<div
 					className={`absolute top-2 right-2 border border-gray-300 ${

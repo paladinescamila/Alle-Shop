@@ -1,11 +1,11 @@
 import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
 import {useResponsive} from '../../utils';
 
 export default function MyOrders() {
-	const {orders} = useShoppingCartContext();
+	const {orders} = useShopiContext();
 	const {isTablet, isSmallTablet, isMobile} = useResponsive();
 	const compare = (a: Order, b: Order) => b.date.getTime() - a.date.getTime();
 

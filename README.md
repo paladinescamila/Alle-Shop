@@ -1,27 +1,17 @@
-# React + TypeScript + Vite
+<h1 align="center">Shopi</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<!-- ![](/public/preview.jpg) -->
 
-Currently, two official plugins are available:
+It is an e-commerce that simulates the visualization of different products, the checkout, and the purchase.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Built with
 
-## Expanding the ESLint configuration
+-   React.js
+-   TypeScript
+-   TailwindCSS
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Author
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+-   Website - [camilapaladines.netlify.app](https://camilapaladines.netlify.app)
+-   Frontend Mentor - [@paladinescamila](https://www.frontendmentor.io/profile/paladinescamila)
+-   LinkedIn - [@paladinescamila](https://co.linkedin.com/in/paladinescamila)

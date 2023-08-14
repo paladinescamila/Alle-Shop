@@ -1,5 +1,8 @@
 type Order = {
 	id: number;
 	date: Date;
-	products: Product[];
+	products: {
+		product: Product;
+		quantity: number;
+	}[];
 };

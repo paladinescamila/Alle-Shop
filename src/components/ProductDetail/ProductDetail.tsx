@@ -1,5 +1,5 @@
 import {XMarkIcon, PlusIcon, MinusIcon} from '@heroicons/react/24/solid';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
@@ -11,7 +11,7 @@ export default function ProductDetail() {
 		removeFromCart,
 		openCheckoutSideMenu,
 		categories,
-	} = useShoppingCartContext();
+	} = useShopiContext();
 	const productInCart = cartProducts.find((product) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {

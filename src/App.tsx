@@ -1,7 +1,7 @@
 import {useRoutes} from 'react-router-dom';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import CheckoutSideMenu from './components/CheckoutSideMenu/CheckoutSideMenu';
-import {useShoppingCartContext} from './Context';
+import {useShopiContext} from './Context';
 import './App.css';
 
 // Pages
@@ -14,7 +14,7 @@ import NotFound from './pages/NotFound/NotFound';
 import NavBar from './components/NavBar/NavBar';
 
 const AppRoutes = () => {
-	const {categories} = useShoppingCartContext();
+	const {categories} = useShopiContext();
 
 	return useRoutes([
 		// All products

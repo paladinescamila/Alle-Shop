@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react';
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
 import Layout from '../../components/Layout/Layout';
 import Card from '../../components/Card/Card';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import {normalizeText, useResponsive} from '../../utils';
 
 export default function ProductsList() {
-	const {products, categories, loadingProducts} = useShoppingCartContext();
+	const {products, categories, loadingProducts} = useShopiContext();
 	const [productsToShow, setProductsToShow] = useState<Product[]>([]);
 
 	const [search, setSearch] = useState<string>('');

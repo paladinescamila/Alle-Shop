@@ -1,12 +1,11 @@
 import {Link} from 'react-router-dom';
 import {XMarkIcon} from '@heroicons/react/24/solid';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import OrderCard from '../OrderCard/OrderCard';
 import {getTotalPrice, useResponsive} from '../../utils';
 
 export default function CheckoutSideMenu() {
-	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartProducts, handleCheckout} =
-		useShoppingCartContext();
+	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartProducts, handleCheckout} = useShopiContext();
 
 	const {isMobile} = useResponsive();
 

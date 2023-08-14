@@ -7,6 +7,10 @@ interface ContextProps {
 
 	loadingProducts: boolean;
 
+	favorites: Product[];
+	addFavorite: (product: Product) => void;
+	removeFavorite: (product: Product) => void;
+
 	productToShow: Product | undefined;
 	openProductDetail: (product: Product) => void;
 	closeProductDetail: () => void;
@@ -23,13 +27,13 @@ interface ContextProps {
 	handleCheckout: () => void;
 }
 
-const ShoppingCartContext = createContext<ContextProps>({} as ContextProps);
+const ShopiContext = createContext<ContextProps>({} as ContextProps);
 
 interface ProviderProps {
 	children: JSX.Element | JSX.Element[];
 }
 
-export const ShoppingCartProvider = (props: ProviderProps) => {
+export const ShopiProvider = (props: ProviderProps) => {
 	// Products
 	const [products, setProducts] = useState<Product[]>([]);
 	const [categories, setCategories] = useState<Categories>({});
@@ -77,6 +81,10 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 			.catch((error) => console.log(error));
 	}, []);
 
+	const [favorites, setFavorites] = useState<Product[]>([]);
+	const addFavorite = (product: Product) => setFavorites([...favorites, product]);
+	const removeFavorite = (product: Product) => setFavorites(favorites.filter((p) => p.id !== product.id));
+
 	const [productToShow, setProductToShow] = useState<Product>();
 
 	const openProductDetail = (product: Product) => {
@@ -109,7 +117,7 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 		const newOrder: Order = {
 			id: new Date().getTime(),
 			date: new Date(),
-			products: cartProducts,
+			products: cartProducts.map((p) => ({product: p, quantity: 1})),
 		};
 
 		setOrders([...orders, newOrder]);
@@ -118,12 +126,16 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 	};
 
 	return (
-		<ShoppingCartContext.Provider
+		<ShopiContext.Provider
 			value={{
 				products,
 				categories,
 
 				loadingProducts,
+
+				favorites,
+				addFavorite,
+				removeFavorite,
 
 				productToShow,
 				openProductDetail,
@@ -141,9 +153,9 @@ export const ShoppingCartProvider = (props: ProviderProps) => {
 				handleCheckout,
 			}}>
 			{props.children}
-		</ShoppingCartContext.Provider>
+		</ShopiContext.Provider>
 	);
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useShoppingCartContext = () => useContext(ShoppingCartContext);
+export const useShopiContext = () => useContext(ShopiContext);

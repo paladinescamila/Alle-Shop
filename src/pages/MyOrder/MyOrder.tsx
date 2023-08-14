@@ -2,11 +2,11 @@ import {Link, useParams} from 'react-router-dom';
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import Layout from '../../components/Layout/Layout';
 import OrderCard from '../../components/OrderCard/OrderCard';
-import {useShoppingCartContext} from '../../Context';
+import {useShopiContext} from '../../Context';
 import {getTotalPrice} from '../../utils';
 
 export default function MyOrder() {
-	const {orders} = useShoppingCartContext();
+	const {orders} = useShopiContext();
 
 	const currentPath = window.location.pathname;
 	const subPath = currentPath.split('/').pop();
@@ -34,13 +34,13 @@ export default function MyOrder() {
 						<span className='text-xs text-black/50'>{order.date.toLocaleTimeString()}</span>
 					</p>
 					<span className='font-medium text-xl'>
-						${getTotalPrice(order.products).toLocaleString()}
+						${getTotalPrice(order.products.map((i) => i.product)).toLocaleString()}
 					</span>
 				</p>
 			)}
 			<div className='flex flex-col w-80'>
-				{order?.products.map((product) => (
-					<OrderCard key={product.id} product={product} type='order' />
+				{order?.products.map((item) => (
+					<OrderCard key={item.product.id} product={item.product} type='order' />
 				))}
 			</div>
 		</Layout>
