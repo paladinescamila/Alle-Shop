@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ShoppingCartIcon, Bars2Icon, XMarkIcon, SwatchIcon} from '@heroicons/react/24/solid';
-import {HeartIcon, ShoppingBagIcon, UserIcon} from '@heroicons/react/24/outline';
+import {HeartIcon, ShoppingBagIcon} from '@heroicons/react/24/outline';
 import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
@@ -73,12 +73,6 @@ export default function NavBar() {
 								Orders
 							</NavLink>
 						</li>
-						<li>
-							<NavLink to='signin' className={optionClassName}>
-								<UserIcon className='h-4 w-4 text-black' />
-								Sign in
-							</NavLink>
-						</li>
 					</>
 				)}
 				<li className='flex items-center cursor-pointer gap-1' onClick={openCloseCheckoutSideMenu}>
@@ -120,12 +114,6 @@ export default function NavBar() {
 						<NavLink to='orders' className={optionClassName}>
 							<ShoppingBagIcon className='h-4 w-4 text-black' />
 							Orders
-						</NavLink>
-					</li>
-					<li onClick={closeMobileMenu}>
-						<NavLink to='signin' className={optionClassName}>
-							<UserIcon className='h-4 w-4 text-black' />
-							Sign in
 						</NavLink>
 					</li>
 				</ul>

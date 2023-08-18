@@ -4,13 +4,11 @@ import CheckoutSideMenu from './components/CheckoutSideMenu/CheckoutSideMenu';
 import {useShopiContext} from './Context';
 import './App.css';
 
-// Pages
+// Pages and components
 import ProductsList from './pages/ProductsList/ProductsList';
 import Favorites from './pages/Favorites/Favorites';
-import Order from './pages/Order/Order';
-import Account from './pages/Account/Account';
 import Orders from './pages/Orders/Orders';
-import Signin from './pages/Signin/Signin';
+import Order from './pages/Order/Order';
 import NotFound from './pages/NotFound/NotFound';
 import NavBar from './components/NavBar/NavBar';
 
@@ -34,10 +32,6 @@ const AppRoutes = () => {
 
 		// Favorites
 		{path: '/favorites', element: <Favorites />},
-
-		// User
-		{path: '/account', element: <Account />},
-		{path: '/signin', element: <Signin />},
 
 		// Not found
 		{path: '*', element: <NotFound />},
