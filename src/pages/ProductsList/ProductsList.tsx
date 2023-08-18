@@ -33,7 +33,7 @@ export default function ProductsList() {
 		const subPath = currentPath.split('/')[1];
 
 		if (Object.keys(categories).includes(normalizeText(subPath))) {
-			setCurrentCategory(subPath.charAt(0).toUpperCase() + subPath.slice(1));
+			setCurrentCategory(categories[subPath].name);
 
 			setProductsToShow(
 				searchedProducts.filter((product) => {

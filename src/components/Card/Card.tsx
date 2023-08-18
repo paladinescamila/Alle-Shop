@@ -52,8 +52,10 @@ export default function Card(props: Props) {
 
 	return (
 		<div
-			className={`cursor-pointer w-60 border transition-all duration-300 group ${
-				productIsSelected ? 'border-black' : 'border-white'
+			className={`cursor-pointer w-60 border transition-all duration-300 group p-2 ${
+				productIsSelected
+					? 'border-black'
+					: ' border-l-gray-100 border-r-gray-300 border-t-gray-100 border-b-gray-300'
 			}`}
 			onClick={openProduct}>
 			<figure className='relative mb-2'>
@@ -65,7 +67,7 @@ export default function Card(props: Props) {
 					<img src={image} alt={title} className='max-w-full max-h-full' />
 				</div>
 				<div
-					className={`absolute top-2 left-2 bg-white rounded-full p-1 ${
+					className={`absolute top-0 left-0 p-1 ${
 						productIsFavorite ? 'flex' : 'hidden group-hover:flex'
 					}`}>
 					{productIsFavorite ? (
@@ -87,7 +89,7 @@ export default function Card(props: Props) {
 					)}
 				</div>
 				<div
-					className={`absolute top-2 right-2 border border-gray-300 ${
+					className={`absolute top-0 right-0 border border-gray-300 ${
 						productWasAdded ? 'flex' : isDesktop ? 'hidden' : 'flex'
 					} justify-center items-center h-6 cursor-pointer group-hover:flex ${
 						productWasAdded ? 'bg-black' : 'bg-white'
@@ -105,7 +107,7 @@ export default function Card(props: Props) {
 					)}
 				</div>
 			</figure>
-			<p className={`flex justify-between gap-2 p-2`}>
+			<p className={`flex justify-between gap-2`}>
 				<span className='text-sm font-light'>{title}</span>
 				<span className='text-sm font-medium'>${price}</span>
 			</p>

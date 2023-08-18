@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {ShoppingCartIcon, Bars2Icon, XMarkIcon} from '@heroicons/react/24/solid';
+import {ShoppingCartIcon, Bars2Icon, XMarkIcon, SwatchIcon} from '@heroicons/react/24/solid';
+import {HeartIcon, ShoppingBagIcon, UserIcon} from '@heroicons/react/24/outline';
 import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
@@ -14,12 +15,13 @@ export default function NavBar() {
 	};
 
 	const optionClassName = ({isActive}: {isActive: boolean}) => {
-		const mainStyle = 'text-wrapping whitespace-nowrap';
-		const activeStyle = 'underline underline-offset-4';
-		return isActive ? `${mainStyle} ${activeStyle}` : mainStyle;
+		const mainStyle = 'text-wrapping whitespace-nowrap flex gap-2 items-center pb-1 border-b';
+		const inactiveStyle = 'border-white hover:border-gray-300';
+		const activeStyle = 'border-black hover:border-black';
+		return `${mainStyle} ${isActive ? activeStyle : inactiveStyle}`;
 	};
 
-	const {isTablet, isSmallTablet, isMobile} = useResponsive();
+	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
 	const openMobileMenu = () => setShowMobileMenu(true);
@@ -32,7 +34,10 @@ export default function NavBar() {
 			} text-sm font-light bg-white border-b border-black`}>
 			<ul className='flex items-center gap-5'>
 				<li className='font-semibold text-lg'>
-					<NavLink to='/'>Shopi</NavLink>
+					<NavLink to='/' className='flex gap-1 items-center'>
+						<SwatchIcon className='h-5 w-5 text-black' />
+						Shopi
+					</NavLink>
 				</li>
 				{!isSmallTablet && !isMobile && (
 					<>
@@ -54,16 +59,24 @@ export default function NavBar() {
 				)}
 			</ul>
 			<ul className='flex items-center gap-5'>
-				{!isTablet && !isSmallTablet && !isMobile && (
+				{!isSmallDesktop && !isTablet && !isSmallTablet && !isMobile && (
 					<>
 						<li>
-							<NavLink to='my-orders' className={optionClassName}>
-								My orders
+							<NavLink to='favorites' className={optionClassName}>
+								<HeartIcon className='h-4 w-4 text-black' />
+								Favorites
 							</NavLink>
 						</li>
 						<li>
-							<NavLink to='my-account' className={optionClassName}>
-								My account
+							<NavLink to='orders' className={optionClassName}>
+								<ShoppingBagIcon className='h-4 w-4 text-black' />
+								Orders
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to='signin' className={optionClassName}>
+								<UserIcon className='h-4 w-4 text-black' />
+								Sign in
 							</NavLink>
 						</li>
 					</>
@@ -74,14 +87,15 @@ export default function NavBar() {
 						{cartProducts.length}
 					</div>
 				</li>
-				{(isTablet || isSmallTablet || isMobile) && (
+				{(isSmallDesktop || isTablet || isSmallTablet || isMobile) && (
 					<Bars2Icon className='h-5 w-5 text-black cursor-pointer' onClick={openMobileMenu} />
 				)}
 			</ul>
-
 			<div
 				className={`w-[70vw] h-[100vh] flex flex-col items-end fixed top-0 py-6 px-5 bg-white border-l border-black transition-all duration-300 ${
-					(isTablet || isSmallTablet || isMobile) && showMobileMenu ? 'right-0' : 'right-[-70vw]'
+					(isSmallDesktop || isTablet || isSmallTablet || isMobile) && showMobileMenu
+						? 'right-0'
+						: 'right-[-70vw]'
 				}`}>
 				<XMarkIcon className='h-5 w-5 mb-20 text-black cursor-pointer' onClick={closeMobileMenu} />
 				{(isSmallTablet || isMobile) && (
@@ -97,12 +111,20 @@ export default function NavBar() {
 				)}
 				<ul className='w-[70%] mx-auto flex flex-col items-center justify-center gap-5'>
 					<li onClick={closeMobileMenu}>
-						<NavLink to='my-orders' className={optionClassName}>
-							My orders
+						<NavLink to='favorites' className={optionClassName}>
+							<HeartIcon className='h-4 w-4 text-black' />
+							Favorites
+						</NavLink>
+					</li>
+					<li onClick={closeMobileMenu}>
+						<NavLink to='orders' className={optionClassName}>
+							<ShoppingBagIcon className='h-4 w-4 text-black' />
+							Orders
 						</NavLink>
 					</li>
 					<li onClick={closeMobileMenu}>
 						<NavLink to='signin' className={optionClassName}>
+							<UserIcon className='h-4 w-4 text-black' />
 							Sign in
 						</NavLink>
 					</li>

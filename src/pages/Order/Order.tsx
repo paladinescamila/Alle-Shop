@@ -5,7 +5,7 @@ import OrderCard from '../../components/OrderCard/OrderCard';
 import {useShopiContext} from '../../Context';
 import {getTotalPrice} from '../../utils';
 
-export default function MyOrder() {
+export default function Order() {
 	const {orders} = useShopiContext();
 
 	const currentPath = window.location.pathname;
@@ -22,13 +22,13 @@ export default function MyOrder() {
 	return (
 		<Layout>
 			<div className='flex items-center justify-center w-80 relative mb-6'>
-				<Link to='/my-orders' className='absolute left-0'>
+				<Link to='/orders' className='absolute left-0'>
 					<ChevronLeftIcon className='h-6 w-6 text-black cursor-pointer' />
 				</Link>
 				<h1 className='font-medium text-xl'>My Order</h1>
 			</div>
-			{order && (
-				<p className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border bg-gray-100'>
+			{order ? (
+				<p className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border border-gray-300'>
 					<p className='font-light flex flex-col'>
 						<span className='text-lg'>{order.date.toLocaleDateString()}</span>
 						<span className='text-xs text-black/50'>{order.date.toLocaleTimeString()}</span>
@@ -37,6 +37,10 @@ export default function MyOrder() {
 						${getTotalPrice(order.products.map((i) => i.product)).toLocaleString()}
 					</span>
 				</p>
+			) : (
+				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
+					The order you are looking for doesn't exist.
+				</div>
 			)}
 			<div className='flex flex-col w-80'>
 				{order?.products.map((item) => (

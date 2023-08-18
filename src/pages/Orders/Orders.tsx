@@ -4,7 +4,7 @@ import {useShopiContext} from '../../Context';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
 import {useResponsive} from '../../utils';
 
-export default function MyOrders() {
+export default function Orders() {
 	const {orders} = useShopiContext();
 	const {isTablet, isSmallTablet, isMobile} = useResponsive();
 	const compare = (a: Order, b: Order) => b.date.getTime() - a.date.getTime();
@@ -48,16 +48,14 @@ export default function MyOrders() {
 
 	return (
 		<Layout>
-			{(isTablet || isSmallTablet || isMobile) && (
-				<h1 className='font-medium text-xl mb-5'>My orders</h1>
-			)}
+			{(isTablet || isSmallTablet || isMobile) && <h1 className='font-medium text-xl mb-5'>Orders</h1>}
 			{orders.length ? (
 				<div>
 					{todaysOrders.length > 0 && (
 						<>
 							<h2 className='font-medium text-lg mb-2'>Today</h2>
 							{todaysOrders.map((order, index) => (
-								<Link to={`/my-orders/${order.id}`} key={index}>
+								<Link to={`/orders/${order.id}`} key={index}>
 									<OrdersCard key={order.id} order={order} />
 								</Link>
 							))}
@@ -67,7 +65,7 @@ export default function MyOrders() {
 						<>
 							<h2 className='font-medium text-lg mb-2'>Yesterday</h2>
 							{yesterdaysOrders.map((order, index) => (
-								<Link to={`/my-orders/${order.id}`} key={index}>
+								<Link to={`/orders/${order.id}`} key={index}>
 									<OrdersCard key={order.id} order={order} />
 								</Link>
 							))}
@@ -77,7 +75,7 @@ export default function MyOrders() {
 						<>
 							<h2 className='font-medium text-lg mb-2'>Last week</h2>
 							{lastWeeksOrders.map((order, index) => (
-								<Link to={`/my-orders/${order.id}`} key={index}>
+								<Link to={`/orders/${order.id}`} key={index}>
 									<OrdersCard key={order.id} order={order} />
 								</Link>
 							))}

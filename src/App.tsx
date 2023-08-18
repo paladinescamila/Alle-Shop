@@ -6,9 +6,10 @@ import './App.css';
 
 // Pages
 import ProductsList from './pages/ProductsList/ProductsList';
-import MyAccount from './pages/MyAccount/MyAccount';
-import MyOrder from './pages/MyOrder/MyOrder';
-import MyOrders from './pages/MyOrders/MyOrders';
+import Favorites from './pages/Favorites/Favorites';
+import Order from './pages/Order/Order';
+import Account from './pages/Account/Account';
+import Orders from './pages/Orders/Orders';
 import Signin from './pages/Signin/Signin';
 import NotFound from './pages/NotFound/NotFound';
 import NavBar from './components/NavBar/NavBar';
@@ -26,13 +27,16 @@ const AppRoutes = () => {
 			element: <ProductsList />,
 		})),
 
-		// Orders management
-		{path: '/my-orders', element: <MyOrders />},
-		{path: '/my-orders/last', element: <MyOrder />},
-		{path: '/my-orders/:id', element: <MyOrder />},
+		// Orders
+		{path: '/orders', element: <Orders />},
+		{path: '/orders/last', element: <Order />},
+		{path: '/orders/:id', element: <Order />},
 
-		// User management
-		{path: '/my-account', element: <MyAccount />},
+		// Favorites
+		{path: '/favorites', element: <Favorites />},
+
+		// User
+		{path: '/account', element: <Account />},
 		{path: '/signin', element: <Signin />},
 
 		// Not found

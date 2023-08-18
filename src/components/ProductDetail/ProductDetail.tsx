@@ -3,15 +3,8 @@ import {useShopiContext} from '../../Context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
-	const {
-		cartProducts,
-		productToShow,
-		closeProductDetail,
-		addToCart,
-		removeFromCart,
-		openCheckoutSideMenu,
-		categories,
-	} = useShopiContext();
+	const {cartProducts, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
+		useShopiContext();
 	const productInCart = cartProducts.find((product) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
@@ -23,12 +16,11 @@ export default function ProductDetail() {
 	};
 
 	const {isMobile} = useResponsive();
-	const categoryNumber = productToShow ? categories[productToShow.category].colorIndex + 1 : 1;
 
 	return (
 		<aside
 			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 overflow-scroll ${
-				isMobile ? 'w-full h-[100vh] border-none z-30' : 'w-[350px]'
+				isMobile ? 'w-full h-[100%] z-30' : 'w-[350px]'
 			} ${productToShow ? 'right-0' : isMobile ? 'bottom-[calc(-100vh)]' : 'right-[calc(-350px)]'}`}>
 			<div className='flex justify-between items-center pb-6'>
 				<h2 className='font-medium text-xl'>Detail</h2>
@@ -36,7 +28,7 @@ export default function ProductDetail() {
 			</div>
 			{productToShow && (
 				<>
-					<figure className='flex justify-center items-center w-full h-60 p-1'>
+					<figure className='flex justify-center items-center w-full h-60'>
 						<img
 							src={productToShow.image}
 							alt={productToShow.title}
@@ -46,9 +38,6 @@ export default function ProductDetail() {
 					<p className='flex flex-col gap-2 py-3'>
 						<span className='font-medium text-2xl'>${productToShow.price}</span>
 						<span className='font-medium text-2md'>{productToShow.title}</span>
-						<span className={`text-xs px-2 py-0.5 rounded-full w-max category-${categoryNumber}`}>
-							{categories[productToShow.category].name}
-						</span>
 						<span className='font-light text-sm'>{productToShow.description}</span>
 					</p>
 					<button

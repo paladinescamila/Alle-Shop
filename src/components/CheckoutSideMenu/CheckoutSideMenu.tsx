@@ -12,7 +12,7 @@ export default function CheckoutSideMenu() {
 	return (
 		<aside
 			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
-				isMobile ? 'w-full h-[100vh] border-none z-30' : 'w-[350px]'
+				isMobile ? 'w-full h-[100%] z-30' : 'w-[350px]'
 			} ${
 				isCheckoutSideMenuOpen
 					? 'right-0'
@@ -38,7 +38,7 @@ export default function CheckoutSideMenu() {
 								${getTotalPrice(cartProducts).toLocaleString()}
 							</span>
 						</p>
-						<Link to='/my-orders/last'>
+						<Link to='/orders/last'>
 							<button className='bg-black py-3 text-white w-full ' onClick={handleCheckout}>
 								Checkout
 							</button>
