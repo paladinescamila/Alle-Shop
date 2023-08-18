@@ -1,7 +1,7 @@
 import React from 'react';
 import {PlusIcon, CheckIcon, HeartIcon as SolidHeartIcon} from '@heroicons/react/24/solid';
 import {HeartIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 interface Props {
@@ -68,7 +68,7 @@ export default function Card(props: Props) {
 				</div>
 				<div
 					className={`absolute top-0 left-0 p-1 ${
-						productIsFavorite ? 'flex' : 'hidden group-hover:flex'
+						productIsFavorite ? 'flex' : isDesktop ? 'hidden group-hover:flex' : 'flex'
 					}`}>
 					{productIsFavorite ? (
 						<SolidHeartIcon

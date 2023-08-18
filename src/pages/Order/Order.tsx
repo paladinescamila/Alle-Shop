@@ -2,7 +2,7 @@ import {Link, useParams} from 'react-router-dom';
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import Layout from '../../components/Layout/Layout';
 import OrderCard from '../../components/OrderCard/OrderCard';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import {getTotalPrice} from '../../utils';
 
 export default function Order() {

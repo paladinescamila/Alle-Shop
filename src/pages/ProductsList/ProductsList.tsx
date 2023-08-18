@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
 import Layout from '../../components/Layout/Layout';
 import Card from '../../components/Card/Card';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import {normalizeText, useResponsive} from '../../utils';
 
 export default function ProductsList() {

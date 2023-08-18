@@ -1,5 +1,5 @@
 import {XMarkIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 
 interface Props {
 	product: Product;

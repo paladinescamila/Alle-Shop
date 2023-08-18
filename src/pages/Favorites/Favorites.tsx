@@ -1,7 +1,7 @@
 import Layout from '../../components/Layout/Layout';
 import Card from '../../components/Card/Card';
 import {useResponsive} from '../../utils';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 
 export default function Favorites() {
 	const {favorites} = useShopiContext();
@@ -9,7 +9,7 @@ export default function Favorites() {
 
 	return (
 		<Layout>
-			{(isTablet || isSmallTablet || isMobile) && (
+			{(isSmallDesktop || isTablet || isSmallTablet || isMobile) && (
 				<h1 className='font-medium text-xl mb-10'>Favorites</h1>
 			)}
 

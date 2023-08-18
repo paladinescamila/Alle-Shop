@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {XMarkIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import OrderCard from '../OrderCard/OrderCard';
 import {getTotalPrice, useResponsive} from '../../utils';
 

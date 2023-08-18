@@ -1,5 +1,5 @@
 import {XMarkIcon, PlusIcon, MinusIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {

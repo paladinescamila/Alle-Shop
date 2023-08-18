@@ -1,7 +1,7 @@
 import {useRoutes} from 'react-router-dom';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import CheckoutSideMenu from './components/CheckoutSideMenu/CheckoutSideMenu';
-import {useShopiContext} from './Context';
+import {useShopiContext} from './context';
 import './App.css';
 
 // Pages and components

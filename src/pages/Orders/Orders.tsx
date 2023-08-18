@@ -1,12 +1,12 @@
 import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
 import {useResponsive} from '../../utils';
 
 export default function Orders() {
 	const {orders} = useShopiContext();
-	const {isTablet, isSmallTablet, isMobile} = useResponsive();
+	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 	const compare = (a: Order, b: Order) => b.date.getTime() - a.date.getTime();
 
 	const today = new Date(),
@@ -48,7 +48,9 @@ export default function Orders() {
 
 	return (
 		<Layout>
-			{(isTablet || isSmallTablet || isMobile) && <h1 className='font-medium text-xl mb-5'>Orders</h1>}
+			{(isSmallDesktop || isTablet || isSmallTablet || isMobile) && (
+				<h1 className='font-medium text-xl mb-5'>Orders</h1>
+			)}
 			{orders.length ? (
 				<div>
 					{todaysOrders.length > 0 && (

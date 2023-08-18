@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ShoppingCartIcon, Bars2Icon, XMarkIcon, SwatchIcon} from '@heroicons/react/24/solid';
 import {HeartIcon, ShoppingBagIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../Context';
+import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function NavBar() {
