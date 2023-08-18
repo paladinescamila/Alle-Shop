@@ -1,8 +1,8 @@
 <h1 align="center">Shopi</h1>
 
-<!-- ![](/public/preview.jpg) -->
+![](/public/preview.png)
 
-It is an e-commerce that simulates the visualization of different products, the checkout, and the purchase.
+It's an e-commerce that simulates the visualization of different products, the checkout, favorites, etc.
 
 ## Built with
 
