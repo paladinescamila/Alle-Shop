@@ -8,11 +8,11 @@ export default function Orders() {
 	const {orders} = useShopiContext();
 	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
+	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
+
 	const today = new Date(),
 		yesterday = new Date(today),
 		lastWeek = new Date(today);
-
-	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
 	const todaysOrders = orders
 		.filter((order) => {
