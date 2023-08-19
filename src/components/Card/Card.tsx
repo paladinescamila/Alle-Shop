@@ -14,7 +14,7 @@ export default function Card(props: Props) {
 		productToShow,
 		openProductDetail,
 		closeProductDetail,
-		cartProducts,
+		cart,
 		addToCart,
 		removeFromCart,
 		openCheckoutSideMenu,
@@ -23,9 +23,9 @@ export default function Card(props: Props) {
 		addFavorite,
 		removeFavorite,
 	} = useShopiContext();
-	const productWasAdded = cartProducts.find((product) => product.id === props.product.id);
+	const productWasAdded = cart.find((product) => product.id === props.product.id);
 	const productIsSelected = productToShow?.id === props.product.id;
-	const productIsFavorite = favorites.includes(props.product);
+	const productIsFavorite = favorites.find((product) => product.id === props.product.id);
 
 	const openProduct = () => {
 		closeProductDetail();

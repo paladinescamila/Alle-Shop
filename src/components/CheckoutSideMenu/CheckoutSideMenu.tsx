@@ -5,7 +5,7 @@ import OrderCard from '../OrderCard/OrderCard';
 import {getTotalPrice, useResponsive} from '../../utils';
 
 export default function CheckoutSideMenu() {
-	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartProducts, handleCheckout} = useShopiContext();
+	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cart, handleCheckout} = useShopiContext();
 
 	const {isMobile} = useResponsive();
 
@@ -24,19 +24,17 @@ export default function CheckoutSideMenu() {
 				<h2 className='font-medium text-xl'>My order</h2>
 				<XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={closeCheckoutSideMenu} />
 			</div>
-			{cartProducts.length > 0 ? (
+			{cart.length > 0 ? (
 				<>
 					<div className='px-6 overflow-y-scroll flex-1'>
-						{cartProducts.map((product) => (
+						{cart.map((product) => (
 							<OrderCard key={product.id} product={product} />
 						))}
 					</div>
 					<div className='px-6 mb-6 mt-3'>
 						<p className='flex justify-between items-center mb-2'>
 							<span className='font-light'>Total:</span>
-							<span className='font-medium'>
-								${getTotalPrice(cartProducts).toLocaleString()}
-							</span>
+							<span className='font-medium'>${getTotalPrice(cart).toLocaleString()}</span>
 						</p>
 						<Link to='/orders/last'>
 							<button className='bg-black py-3 text-white w-full ' onClick={handleCheckout}>

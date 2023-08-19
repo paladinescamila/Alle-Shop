@@ -3,9 +3,9 @@ import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
-	const {cartProducts, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
+	const {cart, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
 		useShopiContext();
-	const productInCart = cartProducts.find((product) => product.id === productToShow?.id);
+	const productInCart = cart.find((product) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
 		if (!productToShow) return;

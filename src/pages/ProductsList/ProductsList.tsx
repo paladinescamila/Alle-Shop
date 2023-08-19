@@ -6,7 +6,7 @@ import {useShopiContext} from '../../context';
 import {normalizeText, useResponsive} from '../../utils';
 
 export default function ProductsList() {
-	const {products, categories, loadingProducts} = useShopiContext();
+	const {products, categories, gettingProducts} = useShopiContext();
 	const [productsToShow, setProductsToShow] = useState<Product[]>([]);
 
 	const [search, setSearch] = useState<string>('');
@@ -64,9 +64,9 @@ export default function ProductsList() {
 				/>
 				<MagnifyingGlassIcon className='w-5 h-full text-gray-400 absolute left-2 top-0 my-auto' />
 			</div>
-			{loadingProducts || !productsToShow.length ? (
+			{gettingProducts || !productsToShow.length ? (
 				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
-					{loadingProducts
+					{gettingProducts
 						? 'Getting products...'
 						: search
 						? `No products found for "${search}"`

@@ -6,7 +6,7 @@ import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function NavBar() {
-	const {categories, cartProducts, isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} =
+	const {categories, cart, isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} =
 		useShopiContext();
 
 	const openCloseCheckoutSideMenu = () => {
@@ -15,7 +15,7 @@ export default function NavBar() {
 	};
 
 	const optionClassName = ({isActive}: {isActive: boolean}) => {
-		const mainStyle = 'text-wrapping whitespace-nowrap flex gap-2 items-center pb-1 border-b';
+		const mainStyle = 'text-wrapping whitespace-nowrap flex gap-2 items-center py-1 border-b';
 		const inactiveStyle = 'border-white hover:border-gray-300';
 		const activeStyle = 'border-black hover:border-black';
 		return `${mainStyle} ${isActive ? activeStyle : inactiveStyle}`;
@@ -29,11 +29,11 @@ export default function NavBar() {
 
 	return (
 		<nav
-			className={`flex justify-between items-center gap-10 fixed z-10 top-0 w-full py-5 ${
+			className={`flex justify-between items-center gap-10 fixed z-10 top-0 w-full py-4 ${
 				isTablet || isSmallTablet || isMobile ? 'px-5' : 'px-10'
 			} text-sm font-light bg-white border-b border-black`}>
 			<ul className='flex items-center gap-5'>
-				<li className='font-semibold text-lg'>
+				<li className='font-semibold text-lg py-1'>
 					<NavLink to='/' className='flex gap-1 items-center'>
 						<SwatchIcon className='h-5 w-5 text-black' />
 						Shopi
@@ -77,9 +77,7 @@ export default function NavBar() {
 				)}
 				<li className='flex items-center cursor-pointer gap-1' onClick={openCloseCheckoutSideMenu}>
 					<ShoppingCartIcon className='h-5 w-5 text-black' />
-					<div className={`font-medium ${cartProducts.length ? 'flex' : 'hidden'}`}>
-						{cartProducts.length}
-					</div>
+					<div className={`font-medium ${cart.length ? 'flex' : 'hidden'}`}>{cart.length}</div>
 				</li>
 				{(isSmallDesktop || isTablet || isSmallTablet || isMobile) && (
 					<Bars2Icon className='h-5 w-5 text-black cursor-pointer' onClick={openMobileMenu} />

@@ -30,8 +30,10 @@ export default function Order() {
 			{order ? (
 				<p className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border border-gray-300'>
 					<p className='font-light flex flex-col'>
-						<span className='text-lg'>{order.date.toLocaleDateString()}</span>
-						<span className='text-xs text-black/50'>{order.date.toLocaleTimeString()}</span>
+						<span className='text-lg'>{new Date(order.date).toLocaleDateString()}</span>
+						<span className='text-xs text-black/50'>
+							{new Date(order.date).toLocaleTimeString()}
+						</span>
 					</p>
 					<span className='font-medium text-xl'>
 						${getTotalPrice(order.products.map((i) => i.product)).toLocaleString()}

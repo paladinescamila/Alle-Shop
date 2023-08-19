@@ -13,8 +13,8 @@ export default function OrdersCard(props: Props) {
 	return (
 		<div className='flex justify-between items-center mb-3 border border-black/20 w-80 p-4 hover:border-black transition-colors duration-300 group'>
 			<p className='flex flex-col'>
-				<span className='font-light'>{date.toLocaleDateString()}</span>
-				<span className='font-light'>
+				<span className='font-light'>{new Date(date).toLocaleDateString()}</span>
+				<span className='font-light text-gray-500'>
 					{totalProducts} product{totalProducts > 1 ? 's' : ''}
 				</span>
 			</p>
