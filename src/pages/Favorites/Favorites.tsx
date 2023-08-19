@@ -1,7 +1,7 @@
-import Layout from '../../components/Layout/Layout';
 import Card from '../../components/Card/Card';
-import {useResponsive} from '../../utils';
+import Layout from '../../components/Layout/Layout';
 import {useShopiContext} from '../../context';
+import {useResponsive} from '../../utils';
 
 export default function Favorites() {
 	const {favorites} = useShopiContext();

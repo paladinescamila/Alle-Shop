@@ -6,13 +6,18 @@ import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function NavBar() {
-	const {categories, cart, isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} =
-		useShopiContext();
+	const {categories, cart} = useShopiContext();
+	const {isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} = useShopiContext();
+	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	const openCloseCheckoutSideMenu = () => {
 		if (isCheckoutSideMenuOpen) closeCheckoutSideMenu();
 		else openCheckoutSideMenu();
 	};
+
+	const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+	const openMobileMenu = () => setShowMobileMenu(true);
+	const closeMobileMenu = () => setShowMobileMenu(false);
 
 	const optionClassName = ({isActive}: {isActive: boolean}) => {
 		const mainStyle = 'text-wrapping whitespace-nowrap flex gap-2 items-center py-1 border-b';
@@ -20,12 +25,6 @@ export default function NavBar() {
 		const activeStyle = 'border-black hover:border-black';
 		return `${mainStyle} ${isActive ? activeStyle : inactiveStyle}`;
 	};
-
-	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
-
-	const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-	const openMobileMenu = () => setShowMobileMenu(true);
-	const closeMobileMenu = () => setShowMobileMenu(false);
 
 	return (
 		<nav

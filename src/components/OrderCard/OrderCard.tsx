@@ -8,15 +8,17 @@ interface Props {
 }
 
 export default function OrderCard(props: Props) {
+	const {changeQuantity, removeFromCart} = useShopiContext();
+
 	const {product, quantity, type = 'cart'} = props;
 	const {title, price, image} = product;
-	const {changeQuantity, removeFromCart} = useShopiContext();
 
 	const increaseQuantity = () => changeQuantity(product, quantity + 1);
 	const decreaseQuantity = () => changeQuantity(product, quantity - 1);
 
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		changeQuantity(product, Math.floor(Number(e.target.value)));
+	};
 
 	return (
 		<div className='grid grid-cols-[50px_1fr] items-center pb-2 mb-2 gap-2 border-b border-gray-300 select-none'>

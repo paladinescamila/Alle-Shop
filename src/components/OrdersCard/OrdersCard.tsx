@@ -1,5 +1,5 @@
-import {getTotalPrice} from '../../utils';
 import {ChevronRightIcon} from '@heroicons/react/24/solid';
+import {getTotalPrice} from '../../utils';
 
 interface Props {
 	order: Order;

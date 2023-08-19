@@ -3,8 +3,10 @@ import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
-	const {cart, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
-		useShopiContext();
+	const {productToShow, closeProductDetail} = useShopiContext();
+	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useShopiContext();
+	const {isMobile} = useResponsive();
+
 	const productInCart = cart.find(({product}) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
@@ -14,8 +16,6 @@ export default function ProductDetail() {
 		if (productInCart) removeFromCart(productToShow);
 		else addToCart(productToShow);
 	};
-
-	const {isMobile} = useResponsive();
 
 	return (
 		<aside

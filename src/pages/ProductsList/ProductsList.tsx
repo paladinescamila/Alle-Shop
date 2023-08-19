@@ -1,16 +1,17 @@
 import {useEffect, useState} from 'react';
-import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
-import Layout from '../../components/Layout/Layout';
 import Card from '../../components/Card/Card';
+import Layout from '../../components/Layout/Layout';
+import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
 import {useShopiContext} from '../../context';
 import {normalizeText, useResponsive} from '../../utils';
 
 export default function ProductsList() {
 	const {products, categories, gettingProducts} = useShopiContext();
-	const [productsToShow, setProductsToShow] = useState<Product[]>([]);
+	const {isDesktop, isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
-	const [search, setSearch] = useState<string>('');
+	const [productsToShow, setProductsToShow] = useState<Product[]>([]);
 	const [currentCategory, setCurrentCategory] = useState<string>('All products');
+	const [search, setSearch] = useState<string>('');
 
 	useEffect(() => {
 		let searchedProducts: Product[] = [];
@@ -48,8 +49,6 @@ export default function ProductsList() {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [search, products, window.location.pathname]);
-
-	const {isDesktop, isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	return (
 		<Layout>

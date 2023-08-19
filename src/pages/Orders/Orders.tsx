@@ -1,21 +1,23 @@
 import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import {useShopiContext} from '../../context';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
+import {useShopiContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function Orders() {
 	const {orders} = useShopiContext();
 	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
-	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
 	const today = new Date(),
 		yesterday = new Date(today),
 		lastWeek = new Date(today);
 
+	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
+
 	const todaysOrders = orders
 		.filter((order) => {
 			const orderDate = new Date(order.date);
+
 			return (
 				orderDate.getDate() === today.getDate() &&
 				orderDate.getMonth() === today.getMonth() &&
@@ -27,6 +29,7 @@ export default function Orders() {
 	const yesterdaysOrders = orders
 		.filter((order) => {
 			const orderDate = new Date(order.date);
+
 			return (
 				orderDate.getDate() === yesterday.setDate(yesterday.getDate() - 1) &&
 				orderDate.getMonth() === yesterday.getMonth() &&
@@ -38,6 +41,7 @@ export default function Orders() {
 	const lastWeeksOrders = orders
 		.filter((order) => {
 			const orderDate = new Date(order.date);
+
 			return (
 				orderDate.getDate() >= lastWeek.setDate(lastWeek.getDate() - 7) &&
 				orderDate.getMonth() === lastWeek.getMonth() &&

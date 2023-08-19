@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
+import OrderCard from '../OrderCard/OrderCard';
 import {XMarkIcon} from '@heroicons/react/24/solid';
 import {useShopiContext} from '../../context';
-import OrderCard from '../OrderCard/OrderCard';
 import {getTotalPrice, useResponsive} from '../../utils';
 
 export default function CheckoutSideMenu() {

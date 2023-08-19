@@ -1,16 +1,18 @@
 import {useRoutes} from 'react-router-dom';
-import ProductDetail from './components/ProductDetail/ProductDetail';
-import CheckoutSideMenu from './components/CheckoutSideMenu/CheckoutSideMenu';
 import {useShopiContext} from './context';
 import './App.css';
 
-// Pages and components
+// Components
+import ProductDetail from './components/ProductDetail/ProductDetail';
+import CheckoutSideMenu from './components/CheckoutSideMenu/CheckoutSideMenu';
+import NavBar from './components/NavBar/NavBar';
+
+// Pages
 import ProductsList from './pages/ProductsList/ProductsList';
 import Favorites from './pages/Favorites/Favorites';
 import Orders from './pages/Orders/Orders';
 import Order from './pages/Order/Order';
 import NotFound from './pages/NotFound/NotFound';
-import NavBar from './components/NavBar/NavBar';
 
 const AppRoutes = () => {
 	const {categories} = useShopiContext();

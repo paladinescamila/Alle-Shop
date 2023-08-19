@@ -1,5 +1,5 @@
-import Layout from '../../components/Layout/Layout';
 import {Link} from 'react-router-dom';
+import Layout from '../../components/Layout/Layout';
 
 export default function NotFound() {
 	return (

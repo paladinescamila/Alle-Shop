@@ -1,6 +1,6 @@
-import axios from 'axios';
 import {useState, useContext, useEffect, createContext} from 'react';
 import {normalizeText, formatText} from '../utils';
+import axios from 'axios';
 
 interface ContextProps {
 	products: Product[];

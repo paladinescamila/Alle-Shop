@@ -9,46 +9,35 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-	const {
-		productToShow,
-		openProductDetail,
-		closeProductDetail,
-		cart,
-		addToCart,
-		removeFromCart,
-		openCheckoutSideMenu,
-		categories,
-		favorites,
-		addFavorite,
-		removeFavorite,
-	} = useShopiContext();
+	const {productToShow, openProductDetail, closeProductDetail, categories} = useShopiContext();
+	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useShopiContext();
+	const {favorites, addFavorite, removeFavorite} = useShopiContext();
+	const {isDesktop} = useResponsive();
+
 	const {id: productID, title, image, price, category} = props.product;
 	const productWasAdded = cart.find(({product}) => product.id === productID);
 	const productIsSelected = productToShow?.id === productID;
 	const productIsFavorite = favorites.find((product) => product.id === productID);
+	const categoryNumber = categories[props.product.category].colorIndex + 1;
 
 	const openProduct = () => {
 		closeProductDetail();
 
 		if (!productIsSelected) {
-			setTimeout(() => {
-				openProductDetail(props.product);
-			}, 300);
+			setTimeout(() => openProductDetail(props.product), 300);
 		}
 	};
 
 	const addOrRemoveToCart = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		event.stopPropagation();
 
-		if (productWasAdded) removeFromCart(props.product);
-		else {
+		if (productWasAdded) {
+			removeFromCart(props.product);
+		} else {
 			addToCart(props.product);
 			openCheckoutSideMenu();
 		}
 	};
-
-	const {isDesktop} = useResponsive();
-	const categoryNumber = categories[props.product.category].colorIndex + 1;
 
 	return (
 		<div

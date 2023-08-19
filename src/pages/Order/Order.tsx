@@ -1,7 +1,7 @@
 import {Link, useParams} from 'react-router-dom';
-import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import Layout from '../../components/Layout/Layout';
 import OrderCard from '../../components/OrderCard/OrderCard';
+import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import {useShopiContext} from '../../context';
 import {getTotalPrice} from '../../utils';
 
@@ -11,13 +11,11 @@ export default function Order() {
 	const currentPath = window.location.pathname;
 	const subPath = currentPath.split('/').pop();
 	const params = useParams();
+
 	let order: Order | undefined;
 
-	if (subPath === 'last') {
-		order = orders?.[orders.length - 1];
-	} else {
-		order = orders?.find((order) => order.id === Number(params.id));
-	}
+	if (subPath === 'last') order = orders?.[orders.length - 1];
+	else order = orders?.find((order) => order.id === Number(params.id));
 
 	return (
 		<Layout>
