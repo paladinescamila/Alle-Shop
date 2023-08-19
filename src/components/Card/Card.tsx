@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-	const {title, image, price, category} = props.product;
 	const {
 		productToShow,
 		openProductDetail,
@@ -23,9 +22,10 @@ export default function Card(props: Props) {
 		addFavorite,
 		removeFavorite,
 	} = useShopiContext();
-	const productWasAdded = cart.find((product) => product.id === props.product.id);
-	const productIsSelected = productToShow?.id === props.product.id;
-	const productIsFavorite = favorites.find((product) => product.id === props.product.id);
+	const {id: productID, title, image, price, category} = props.product;
+	const productWasAdded = cart.find(({product}) => product.id === productID);
+	const productIsSelected = productToShow?.id === productID;
+	const productIsFavorite = favorites.find((product) => product.id === productID);
 
 	const openProduct = () => {
 		closeProductDetail();

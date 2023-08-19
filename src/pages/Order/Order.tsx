@@ -36,7 +36,7 @@ export default function Order() {
 						</span>
 					</p>
 					<span className='font-medium text-xl'>
-						${getTotalPrice(order.products.map((i) => i.product)).toLocaleString()}
+						${getTotalPrice(order.products).toLocaleString()}
 					</span>
 				</p>
 			) : (
@@ -45,8 +45,8 @@ export default function Order() {
 				</div>
 			)}
 			<div className='flex flex-col w-80'>
-				{order?.products.map((item) => (
-					<OrderCard key={item.product.id} product={item.product} type='order' />
+				{order?.products.map(({product, quantity}) => (
+					<OrderCard key={product.id} product={product} quantity={quantity} type='order' />
 				))}
 			</div>
 		</Layout>

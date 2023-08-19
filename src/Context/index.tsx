@@ -15,9 +15,10 @@ interface ContextProps {
 	openProductDetail: (product: Product) => void;
 	closeProductDetail: () => void;
 
-	cart: Product[];
+	cart: Cart;
 	addToCart: (product: Product) => void;
 	removeFromCart: (product: Product) => void;
+	changeQuantity: (product: Product, quantity: number) => void;
 
 	isCheckoutSideMenuOpen: boolean;
 	openCheckoutSideMenu: () => void;
@@ -95,9 +96,14 @@ export const ShopiProvider = (props: ProviderProps) => {
 	const closeProductDetail = () => setProductToShow(undefined);
 
 	// Cart
-	const [cart, setCart] = useState<Product[]>([]);
-	const addToCart = (product: Product) => setCart([...cart, product]);
-	const removeFromCart = (product: Product) => setCart(cart.filter((p) => p.id !== product.id));
+	const [cart, setCart] = useState<Cart>([]);
+	const addToCart = (product: Product) => setCart([...cart, {product, quantity: 1}]);
+	const removeFromCart = (product: Product) => setCart(cart.filter((p) => p.product.id !== product.id));
+
+	const changeQuantity = (product: Product, quantity: number) => {
+		if (quantity <= 0) return removeFromCart(product);
+		setCart(cart.map((p) => (p.product.id === product.id ? {...p, quantity} : p)));
+	};
 
 	const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState<boolean>(false);
 
@@ -115,7 +121,7 @@ export const ShopiProvider = (props: ProviderProps) => {
 		const newOrder: Order = {
 			id: new Date().getTime(),
 			date: new Date().toISOString(),
-			products: cart.map((p) => ({product: p, quantity: 1})),
+			products: cart,
 		};
 
 		setOrders([...orders, newOrder]);
@@ -166,6 +172,7 @@ export const ShopiProvider = (props: ProviderProps) => {
 				cart,
 				addToCart,
 				removeFromCart,
+				changeQuantity,
 
 				isCheckoutSideMenuOpen,
 				openCheckoutSideMenu,

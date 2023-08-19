@@ -2,13 +2,11 @@ import {useEffect, useState} from 'react';
 
 /**
  * This function returns the total price of all products
- * @param {Product[]} products - array of products
+ * @param {object[]} products - array of products
  * @returns {number} total price of all products
  */
-export const getTotalPrice = (products: Product[]) =>
-	products.reduce((sum, product) => {
-		return sum + product.price;
-	}, 0);
+export const getTotalPrice = (products: {product: Product; quantity: number}[]) =>
+	products.reduce((total, {product, quantity}) => total + product.price * quantity, 0);
 
 /**
  * This function changes the text to lowercase, removes special characters and spaces

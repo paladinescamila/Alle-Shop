@@ -6,13 +6,12 @@ import {getTotalPrice, useResponsive} from '../../utils';
 
 export default function CheckoutSideMenu() {
 	const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cart, handleCheckout} = useShopiContext();
-
 	const {isMobile} = useResponsive();
 
 	return (
 		<aside
 			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
-				isMobile ? 'w-full h-[100%] z-30' : 'w-[350px]'
+				isMobile ? 'w-full h-[100vh] z-30 border-x-0' : 'w-[350px]'
 			} ${
 				isCheckoutSideMenuOpen
 					? 'right-0'
@@ -27,8 +26,8 @@ export default function CheckoutSideMenu() {
 			{cart.length > 0 ? (
 				<>
 					<div className='px-6 overflow-y-scroll flex-1'>
-						{cart.map((product) => (
-							<OrderCard key={product.id} product={product} />
+						{cart.map(({product, quantity}) => (
+							<OrderCard key={product.id} product={product} quantity={quantity} />
 						))}
 					</div>
 					<div className='px-6 mb-6 mt-3'>

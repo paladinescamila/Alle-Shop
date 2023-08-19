@@ -5,7 +5,7 @@ import {useResponsive} from '../../utils';
 export default function ProductDetail() {
 	const {cart, productToShow, closeProductDetail, addToCart, removeFromCart, openCheckoutSideMenu} =
 		useShopiContext();
-	const productInCart = cart.find((product) => product.id === productToShow?.id);
+	const productInCart = cart.find(({product}) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
 		if (!productToShow) return;
@@ -20,7 +20,7 @@ export default function ProductDetail() {
 	return (
 		<aside
 			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white p-6 transition-all duration-300 bottom-0 overflow-scroll ${
-				isMobile ? 'w-full h-[100%] z-30' : 'w-[350px]'
+				isMobile ? 'w-full h-[100vh] z-30 border-x-0' : 'w-[350px]'
 			} ${productToShow ? 'right-0' : isMobile ? 'bottom-[calc(-100vh)]' : 'right-[calc(-350px)]'}`}>
 			<div className='flex justify-between items-center pb-6'>
 				<h2 className='font-medium text-xl'>Detail</h2>

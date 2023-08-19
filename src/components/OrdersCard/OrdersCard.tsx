@@ -7,7 +7,7 @@ interface Props {
 
 export default function OrdersCard(props: Props) {
 	const {date, products} = props.order;
-	const totalPrice = getTotalPrice(products.map((i) => i.product));
+	const totalPrice = getTotalPrice(products);
 	const totalProducts = products.length;
 
 	return (

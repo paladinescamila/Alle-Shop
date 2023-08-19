@@ -61,3 +61,7 @@
 	color: #685f52;
 	border: 0.5px solid #685f52;
 }
+
+* {
+	outline: none;
+}
