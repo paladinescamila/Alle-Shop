@@ -6,3 +6,9 @@ type Product = {
 	image: string;
 	category: string;
 };
+
+type Order = {
+	id: number;
+	date: Date;
+	products: Product[];
+};
