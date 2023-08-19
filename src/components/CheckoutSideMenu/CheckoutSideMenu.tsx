@@ -11,7 +11,7 @@ export default function CheckoutSideMenu() {
 	return (
 		<aside
 			className={`h-[calc(100vh-68px)] flex flex-col fixed border border-black bg-white transition-all duration-300 bottom-0 ${
-				isMobile ? 'w-full h-[100vh] z-30 border-x-0' : 'w-[350px]'
+				isMobile ? 'w-full h-[100%] z-30 border-x-0' : 'w-[350px]'
 			} ${
 				isCheckoutSideMenuOpen
 					? 'right-0'

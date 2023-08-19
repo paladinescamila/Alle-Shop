@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {ShopiProvider} from './context';
@@ -5,9 +6,11 @@ import {ShopiProvider} from './context';
 import App from './App.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<ShopiProvider>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</ShopiProvider>
+	<React.StrictMode>
+		<ShopiProvider>
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
+		</ShopiProvider>
+	</React.StrictMode>
 );
