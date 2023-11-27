@@ -3,6 +3,11 @@ import {normalizeText, formatText} from '../utils';
 import axios from 'axios';
 
 interface ContextProps {
+	user: User | null;
+	logIn: (email: string, password: string) => void;
+	logOut: () => void;
+	signIn: (name: string, email: string, password: string) => void;
+
 	products: Product[];
 	categories: Categories;
 	gettingProducts: boolean;
@@ -35,6 +40,21 @@ interface ProviderProps {
 }
 
 export const ShopiProvider = (props: ProviderProps) => {
+	// Account
+	const [user, setUser] = useState<User | null>(null);
+
+	const logIn = (email: string, password: string) => {
+		setUser({email, password, name: ''});
+	};
+
+	const logOut = () => {
+		setUser(null);
+	};
+
+	const signIn = (name: string, email: string, password: string) => {
+		setUser({name, email, password});
+	};
+
 	// Products
 	const [products, setProducts] = useState<Product[]>([]);
 	const [categories, setCategories] = useState<Categories>({});
@@ -135,10 +155,12 @@ export const ShopiProvider = (props: ProviderProps) => {
 	useEffect(() => {
 		if (firstRender) {
 			loadProducts().then(() => {
+				const userData = localStorage.getItem('user');
 				const favoritesData = localStorage.getItem('favorites');
 				const cartData = localStorage.getItem('cart');
 				const ordersData = localStorage.getItem('orders');
 
+				if (userData) setUser(JSON.parse(userData));
 				if (favoritesData) setFavorites(JSON.parse(favoritesData));
 				if (cartData) setCart(JSON.parse(cartData));
 				if (ordersData) setOrders(JSON.parse(ordersData));
@@ -146,16 +168,22 @@ export const ShopiProvider = (props: ProviderProps) => {
 				setFirstRender(false);
 			});
 		} else if (!gettingProducts) {
+			localStorage.setItem('user', JSON.stringify(user));
 			localStorage.setItem('favorites', JSON.stringify(favorites));
 			localStorage.setItem('cart', JSON.stringify(cart));
 			localStorage.setItem('orders', JSON.stringify(orders));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [favorites, cart, orders]);
+	}, [user, favorites, cart, orders]);
 
 	return (
 		<ShopiContext.Provider
 			value={{
+				user,
+				logIn,
+				logOut,
+				signIn,
+
 				products,
 				categories,
 

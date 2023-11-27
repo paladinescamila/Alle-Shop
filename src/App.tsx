@@ -9,9 +9,12 @@ import NavBar from './components/NavBar/NavBar';
 
 // Pages
 import ProductsList from './pages/ProductsList/ProductsList';
-import Favorites from './pages/Favorites/Favorites';
 import Orders from './pages/Orders/Orders';
 import Order from './pages/Order/Order';
+import Favorites from './pages/Favorites/Favorites';
+import Account from './pages/Account/Account';
+import LogIn from './pages/LogIn/LogIn';
+import SignIn from './pages/SignIn/SignIn';
 import NotFound from './pages/NotFound/NotFound';
 
 const AppRoutes = () => {
@@ -34,6 +37,11 @@ const AppRoutes = () => {
 
 		// Favorites
 		{path: '/favorites', element: <Favorites />},
+
+		// Account
+		{path: '/account', element: <Account />},
+		{path: '/login', element: <LogIn />},
+		{path: '/signin', element: <SignIn />},
 
 		// Not found
 		{path: '*', element: <NotFound />},
