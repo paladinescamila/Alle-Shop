@@ -1,5 +1,5 @@
 import {TrashIcon, PlusIcon, MinusIcon, XMarkIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 
 interface Props {
 	product: Product;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function OrderCard(props: Props) {
-	const {changeQuantity, removeFromCart} = useShopiContext();
+	const {changeQuantity, removeFromCart} = useMyContext();
 
 	const {product, quantity, type = 'cart'} = props;
 	const {title, price, image} = product;

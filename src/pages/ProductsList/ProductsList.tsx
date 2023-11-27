@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react';
 import Card from '../../components/Card/Card';
 import Layout from '../../components/Layout/Layout';
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {normalizeText, useResponsive} from '../../utils';
 
 export default function ProductsList() {
-	const {products, categories, gettingProducts} = useShopiContext();
+	const {products, categories, gettingProducts} = useMyContext();
 	const {isDesktop, isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	const [productsToShow, setProductsToShow] = useState<Product[]>([]);

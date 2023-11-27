@@ -1,4 +1,4 @@
-<h1 align="center">Shopi</h1>
+<h1 align="center">Alle Shop</h1>
 
 ![](/public/preview.png)
 

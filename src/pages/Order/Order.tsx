@@ -2,11 +2,11 @@ import {Link, useParams} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import OrderCard from '../../components/OrderCard/OrderCard';
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {getTotalPrice} from '../../utils';
 
 export default function Order() {
-	const {orders} = useShopiContext();
+	const {orders} = useMyContext();
 
 	const currentPath = window.location.pathname;
 	const subPath = currentPath.split('/').pop();

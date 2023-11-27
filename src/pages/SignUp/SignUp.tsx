@@ -2,10 +2,10 @@ import {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import {UserIcon, EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 
-export default function SignIn() {
-	const {user, signIn} = useShopiContext();
+export default function SignUp() {
+	const {user, signUp} = useMyContext();
 
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
@@ -23,7 +23,7 @@ export default function SignIn() {
 
 	return (
 		<Layout>
-			<h1 className='font-medium text-xl text-center mb-6'>Sign In</h1>
+			<h1 className='font-medium text-xl text-center mb-6'>Sign Up</h1>
 			<form className='flex flex-col'>
 				<div className='w-full relative mb-3'>
 					<input
@@ -65,8 +65,8 @@ export default function SignIn() {
 				<Link to='/'>
 					<button
 						className='bg-black py-3 text-white w-full '
-						onClick={() => signIn(name, email, password)}>
-						Sign In
+						onClick={() => signUp(name, email, password)}>
+						Sign Up
 					</button>
 				</Link>
 			</form>

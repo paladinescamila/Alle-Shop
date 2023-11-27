@@ -1,11 +1,11 @@
 import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function Orders() {
-	const {orders} = useShopiContext();
+	const {orders} = useMyContext();
 	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -90,7 +90,7 @@ export default function Orders() {
 				</div>
 			) : (
 				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
-					You have no orders yet.
+					You have no orders
 				</div>
 			)}
 		</Layout>

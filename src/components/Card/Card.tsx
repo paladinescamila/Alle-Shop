@@ -1,7 +1,7 @@
 import React from 'react';
 import {PlusIcon, CheckIcon, HeartIcon as SolidHeartIcon} from '@heroicons/react/24/solid';
 import {HeartIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 interface Props {
@@ -9,9 +9,9 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-	const {productToShow, openProductDetail, closeProductDetail, categories} = useShopiContext();
-	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useShopiContext();
-	const {favorites, addFavorite, removeFavorite} = useShopiContext();
+	const {productToShow, openProductDetail, closeProductDetail, categories} = useMyContext();
+	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useMyContext();
+	const {favorites, addFavorite, removeFavorite} = useMyContext();
 	const {isDesktop} = useResponsive();
 
 	const {id: productID, title, image, price, category} = props.product;

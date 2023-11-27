@@ -2,10 +2,10 @@ import {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import {EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 
 export default function LogIn() {
-	const {user, logIn} = useShopiContext();
+	const {user, logIn} = useMyContext();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
@@ -43,11 +43,11 @@ export default function LogIn() {
 					/>
 					<KeyIcon className='w-5 h-full text-gray-400 absolute left-2 top-0 my-auto' />
 				</div>
-				<Link to='/signin'>
+				<Link to='/signup'>
 					<p className='w-full font-light text-gray-500 mb-5 text-sm text-center'>
 						Don't have an account?
 						<span> </span>
-						<span className='text-black underline'>Sign In</span>
+						<span className='text-black underline'>Sign Up</span>
 					</p>
 				</Link>
 				<Link to='/'>

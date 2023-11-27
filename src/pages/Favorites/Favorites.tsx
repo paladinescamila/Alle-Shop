@@ -1,10 +1,10 @@
 import Card from '../../components/Card/Card';
 import Layout from '../../components/Layout/Layout';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function Favorites() {
-	const {favorites} = useShopiContext();
+	const {favorites} = useMyContext();
 	const {isDesktop, isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	return (
@@ -30,7 +30,7 @@ export default function Favorites() {
 				</div>
 			) : (
 				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
-					You have no favorites yet.
+					You have no favorites
 				</div>
 			)}
 		</Layout>

@@ -2,12 +2,12 @@ import {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ShoppingCartIcon, Bars2Icon, XMarkIcon, SwatchIcon} from '@heroicons/react/24/solid';
 import {HeartIcon, ShoppingBagIcon, UserIcon} from '@heroicons/react/24/outline';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function NavBar() {
-	const {user, categories, cart} = useShopiContext();
-	const {isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} = useShopiContext();
+	const {user, categories, cart} = useMyContext();
+	const {isCheckoutSideMenuOpen, openCheckoutSideMenu, closeCheckoutSideMenu} = useMyContext();
 	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
 	const openCloseCheckoutSideMenu = () => {
@@ -35,7 +35,7 @@ export default function NavBar() {
 				<li className='font-semibold text-lg py-1'>
 					<NavLink to='/' className='flex gap-1 items-center'>
 						<SwatchIcon className='h-5 w-5 text-black' />
-						Shopi
+						Alle Shop
 					</NavLink>
 				</li>
 				{!isSmallTablet && !isMobile && (
@@ -75,7 +75,7 @@ export default function NavBar() {
 						<li>
 							<NavLink to={user ? 'account' : 'login'} className={optionClassName}>
 								<UserIcon className='h-4 w-4 text-black' />
-								{user ? 'Account' : 'Sign In'}
+								{user ? 'Account' : 'Log In'}
 							</NavLink>
 						</li>
 					</>
@@ -122,7 +122,7 @@ export default function NavBar() {
 					<li onClick={closeMobileMenu}>
 						<NavLink to={user ? 'account' : 'login'} className={optionClassName}>
 							<UserIcon className='h-4 w-4 text-black' />
-							{user ? 'Account' : 'Sign In'}
+							{user ? 'Account' : 'Log In'}
 						</NavLink>
 					</li>
 				</ul>

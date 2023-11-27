@@ -1,5 +1,5 @@
 import {useRoutes} from 'react-router-dom';
-import {useShopiContext} from './context';
+import {useMyContext} from './context';
 import './App.css';
 
 // Components
@@ -14,11 +14,11 @@ import Order from './pages/Order/Order';
 import Favorites from './pages/Favorites/Favorites';
 import Account from './pages/Account/Account';
 import LogIn from './pages/LogIn/LogIn';
-import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
 import NotFound from './pages/NotFound/NotFound';
 
 const AppRoutes = () => {
-	const {categories} = useShopiContext();
+	const {categories} = useMyContext();
 
 	return useRoutes([
 		// All products
@@ -41,7 +41,7 @@ const AppRoutes = () => {
 		// Account
 		{path: '/account', element: <Account />},
 		{path: '/login', element: <LogIn />},
-		{path: '/signin', element: <SignIn />},
+		{path: '/signup', element: <SignUp />},
 
 		// Not found
 		{path: '*', element: <NotFound />},

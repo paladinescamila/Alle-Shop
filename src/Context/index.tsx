@@ -6,7 +6,7 @@ interface ContextProps {
 	user: User | null;
 	logIn: (email: string, password: string) => void;
 	logOut: () => void;
-	signIn: (name: string, email: string, password: string) => void;
+	signUp: (name: string, email: string, password: string) => void;
 
 	products: Product[];
 	categories: Categories;
@@ -33,13 +33,13 @@ interface ContextProps {
 	handleCheckout: () => void;
 }
 
-const ShopiContext = createContext<ContextProps>({} as ContextProps);
+const MyContext = createContext<ContextProps>({} as ContextProps);
 
 interface ProviderProps {
 	children: JSX.Element | JSX.Element[];
 }
 
-export const ShopiProvider = (props: ProviderProps) => {
+export const MyProvider = (props: ProviderProps) => {
 	// Account
 	const [user, setUser] = useState<User | null>(null);
 
@@ -51,7 +51,7 @@ export const ShopiProvider = (props: ProviderProps) => {
 		setUser(null);
 	};
 
-	const signIn = (name: string, email: string, password: string) => {
+	const signUp = (name: string, email: string, password: string) => {
 		setUser({name, email, password});
 	};
 
@@ -177,12 +177,12 @@ export const ShopiProvider = (props: ProviderProps) => {
 	}, [user, favorites, cart, orders]);
 
 	return (
-		<ShopiContext.Provider
+		<MyContext.Provider
 			value={{
 				user,
 				logIn,
 				logOut,
-				signIn,
+				signUp,
 
 				products,
 				categories,
@@ -210,9 +210,9 @@ export const ShopiProvider = (props: ProviderProps) => {
 				handleCheckout,
 			}}>
 			{props.children}
-		</ShopiContext.Provider>
+		</MyContext.Provider>
 	);
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useShopiContext = () => useContext(ShopiContext);
+export const useMyContext = () => useContext(MyContext);

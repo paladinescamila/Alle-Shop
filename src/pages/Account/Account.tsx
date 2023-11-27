@@ -1,9 +1,9 @@
 import Layout from '../../components/Layout/Layout';
 import {Link, useNavigate} from 'react-router-dom';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 
 export default function Account() {
-	const {user, logOut} = useShopiContext();
+	const {user, logOut} = useMyContext();
 
 	const navigate = useNavigate();
 

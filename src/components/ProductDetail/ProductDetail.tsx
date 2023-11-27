@@ -1,10 +1,10 @@
 import {XMarkIcon, PlusIcon, MinusIcon} from '@heroicons/react/24/solid';
-import {useShopiContext} from '../../context';
+import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
-	const {productToShow, closeProductDetail} = useShopiContext();
-	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useShopiContext();
+	const {productToShow, closeProductDetail} = useMyContext();
+	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useMyContext();
 	const {isMobile} = useResponsive();
 
 	const productInCart = cart.find(({product}) => product.id === productToShow?.id);
