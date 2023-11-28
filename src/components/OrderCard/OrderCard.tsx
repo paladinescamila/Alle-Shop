@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function OrderCard(props: Props) {
-	const {changeQuantity, removeFromCart} = useMyContext();
+	const {changeQuantity, removeFromCart, openProductDetail} = useMyContext();
 
 	const {product, quantity, type = 'cart'} = props;
 	const {title, price, image} = product;
@@ -26,7 +26,11 @@ export default function OrderCard(props: Props) {
 				<img src={image} alt={title} className='max-w-full max-h-full' />
 			</figure>
 			<div className='flex flex-col'>
-				<p className='text-sm font-light'>{title}</p>
+				<p
+					className='text-sm font-light hover:underline cursor-pointer'
+					onClick={() => openProductDetail(product)}>
+					{title}
+				</p>
 				<p className='text-lg font-medium'>
 					{quantity === 1 ? (
 						`$${price}`

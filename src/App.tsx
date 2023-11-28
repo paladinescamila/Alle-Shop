@@ -15,6 +15,7 @@ import Favorites from './pages/Favorites/Favorites';
 import Account from './pages/Account/Account';
 import LogIn from './pages/LogIn/LogIn';
 import SignUp from './pages/SignUp/SignUp';
+import ChangePassword from './pages/ChangePassword/ChangePassword';
 import NotFound from './pages/NotFound/NotFound';
 
 const AppRoutes = () => {
@@ -42,6 +43,7 @@ const AppRoutes = () => {
 		{path: '/account', element: <Account />},
 		{path: '/login', element: <LogIn />},
 		{path: '/signup', element: <SignUp />},
+		{path: '/change-password', element: <ChangePassword />},
 
 		// Not found
 		{path: '*', element: <NotFound />},

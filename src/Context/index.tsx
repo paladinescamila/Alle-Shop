@@ -1,12 +1,16 @@
 import {useState, useContext, useEffect, createContext} from 'react';
 import {normalizeText, formatText} from '../utils';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {firebaseAuth} from '../firebase/auth';
 
 interface ContextProps {
 	user: User | null;
-	logIn: (email: string, password: string) => void;
-	logOut: () => void;
-	signUp: (name: string, email: string, password: string) => void;
+	login: (email: string, password: string) => Promise<void>;
+	signup: (name: string, email: string, password: string) => Promise<void>;
+	logout: () => Promise<void>;
+	changePassword: (password: string) => Promise<void>;
+	deleteAccount: () => Promise<void>;
 
 	products: Product[];
 	categories: Categories;
@@ -40,19 +44,80 @@ interface ProviderProps {
 }
 
 export const MyProvider = (props: ProviderProps) => {
+	const navigate = useNavigate();
+
 	// Account
 	const [user, setUser] = useState<User | null>(null);
 
-	const logIn = (email: string, password: string) => {
-		setUser({email, password, name: ''});
+	const login = async (email: string, password: string) => {
+		try {
+			const response = await firebaseAuth.login(email, password);
+
+			if (response.user) {
+				setUser({id: response.user.uid, name: response.user.displayName || '', email});
+				navigate('/');
+			}
+		} catch (error) {
+			if (error.code === 'auth/wrong-password') alert('Wrong password');
+			else if (error.code === 'auth/user-not-found') alert('User not found');
+			else if (error.code === 'auth/network-request-failed') alert('Network error');
+			else alert('Error logging in');
+		}
 	};
 
-	const logOut = () => {
-		setUser(null);
+	const signup = async (name: string, email: string, password: string) => {
+		try {
+			const response = await firebaseAuth.signup(email, password);
+
+			if (response.user) {
+				setUser({
+					id: response.user.uid,
+					name: name || '',
+					email,
+				});
+				navigate('/');
+			}
+		} catch (error) {
+			if (error.code === 'auth/email-already-in-use') alert('Email already in use');
+			else if (error.code === 'auth/invalid-email') alert('Invalid email');
+			else if (error.code === 'auth/weak-password') alert('Weak password');
+			else if (error.code === 'auth/network-request-failed') alert('Network error');
+			else alert('Error signing up');
+		}
 	};
 
-	const signUp = (name: string, email: string, password: string) => {
-		setUser({name, email, password});
+	const logout = () =>
+		firebaseAuth.signout().then(() => {
+			setUser(null);
+			setFavorites([]);
+			setCart([]);
+			setOrders([]);
+			navigate('/login');
+		});
+
+	const changePassword = async (password: string) => {
+		try {
+			await firebaseAuth.changePassword(password);
+			alert('Password changed successfully');
+			navigate('/account');
+		} catch (error) {
+			if (error.code === 'auth/requires-recent-login') alert('Please log in again');
+			else if (error.code === 'auth/weak-password') alert('Weak password');
+			else if (error.code === 'auth/network-request-failed') alert('Network error');
+			else alert('Error changing password');
+		}
+	};
+
+	const deleteAccount = async () => {
+		try {
+			await firebaseAuth.deleteAccount();
+			alert('Account deleted successfully');
+			logout();
+		} catch (error) {
+			if (error.code === 'auth/requires-recent-login') alert('Please log in again');
+			else if (error.code === 'auth/network-request-failed') alert('Network error');
+			else alert('Error deleting account');
+		}
 	};
 
 	// Products
@@ -180,9 +245,11 @@ export const MyProvider = (props: ProviderProps) => {
 		<MyContext.Provider
 			value={{
 				user,
-				logIn,
-				logOut,
-				signUp,
+				login,
+				signup,
+				logout,
+				changePassword,
+				deleteAccount,
 
 				products,
 				categories,

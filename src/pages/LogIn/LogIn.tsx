@@ -1,28 +1,32 @@
-import {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
+import Button from '../../components/Button/Button';
 import {EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function LogIn() {
-	const {user, logIn} = useMyContext();
+	const {user, login} = useMyContext();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const navigate = useNavigate();
+	const afterLogin = () => {
+		setEmail('');
+		setPassword('');
+	};
 
-	useEffect(() => {
-		if (user !== null) {
-			navigate('/');
-		}
-	}, [user, navigate]);
+	const loginHandler = () => {
+		if (email === '' || password === '') return alert('Please fill all fields');
+
+		login(email, password).then(afterLogin);
+	};
 
 	if (user !== null) return null;
 
 	return (
 		<Layout>
 			<h1 className='font-medium text-xl text-center mb-6'>Log In</h1>
-			<form className='flex flex-col'>
+			<form className='flex flex-col w-80' onSubmit={(e) => e.preventDefault()}>
 				<div className='w-full relative mb-3'>
 					<input
 						type='text'
@@ -33,7 +37,7 @@ export default function LogIn() {
 					/>
 					<EnvelopeIcon className='w-5 h-full text-gray-400 absolute left-2 top-0 my-auto' />
 				</div>
-				<div className='w-full relative mb-6'>
+				<div className='w-full relative mb-5'>
 					<input
 						type='password'
 						placeholder='Password'
@@ -50,13 +54,7 @@ export default function LogIn() {
 						<span className='text-black underline'>Sign Up</span>
 					</p>
 				</Link>
-				<Link to='/'>
-					<button
-						className='bg-black py-3 text-white w-full '
-						onClick={() => logIn(email, password)}>
-						Log In
-					</button>
-				</Link>
+				<Button text='Log In' onClick={loginHandler} />
 			</form>
 		</Layout>
 	);

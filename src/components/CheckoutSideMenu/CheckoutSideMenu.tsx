@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
+import Button from '../Button/Button';
 import {XMarkIcon} from '@heroicons/react/24/solid';
 import {useMyContext} from '../../context';
 import {getTotalPrice, useResponsive} from '../../utils';
@@ -36,9 +37,7 @@ export default function CheckoutSideMenu() {
 							<span className='font-medium'>${getTotalPrice(cart).toLocaleString()}</span>
 						</p>
 						<Link to='/orders/last'>
-							<button className='bg-black py-3 text-white w-full ' onClick={handleCheckout}>
-								Checkout
-							</button>
+							<Button text='Checkout' onClick={handleCheckout} />
 						</Link>
 					</div>
 				</>

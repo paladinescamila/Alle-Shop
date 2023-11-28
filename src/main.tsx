@@ -7,10 +7,10 @@ import App from './App.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<MyProvider>
-			<BrowserRouter>
+		<BrowserRouter>
+			<MyProvider>
 				<App />
-			</BrowserRouter>
-		</MyProvider>
+			</MyProvider>
+		</BrowserRouter>
 	</React.StrictMode>
 );
