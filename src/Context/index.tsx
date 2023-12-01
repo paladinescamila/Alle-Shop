@@ -2,7 +2,10 @@ import {useState, useContext, useEffect, createContext} from 'react';
 import {normalizeText, formatText} from '../utils';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import {getFavorites, getCart, getOrders} from '../utils/conversor';
+import {getFirestoreFavorites, getFirestoreCart, getFirestoreOrders} from '../utils/conversor';
 import {firebaseAuth} from '../firebase/auth';
+import {firebaseFirestore} from '../firebase/firestore';
 
 interface ContextProps {
 	goTo: (path: string) => void;
@@ -59,10 +62,26 @@ export const MyProvider = (props: ProviderProps) => {
 		firebaseAuth
 			.login(email, password)
 			.then((response) => {
-				if (response.user) {
-					setUser({id: response.user.uid, name: response.user.displayName || '', email});
-					goTo('/');
+				if (!response.user) {
+					alert('Error logging in');
+					return;
 				}
+
+				firebaseFirestore
+					.getData(response.user.uid)
+					.then((data) => {
+						if (!data) {
+							alert('Error logging in');
+							return;
+						}
+
+						setUser({id: data.id, name: data.name, email: data.email});
+						setFavorites(getFavorites(data.favorites, products));
+						setCart(getCart(data.cart, products));
+						setOrders(getOrders(data.orders, products));
+						goTo('/');
+					})
+					.catch(() => alert('Error logging in'));
 			})
 			.catch(({code}: {code: string}) => {
 				if (code === 'auth/wrong-password') alert('Wrong password');
@@ -76,10 +95,25 @@ export const MyProvider = (props: ProviderProps) => {
 		firebaseAuth
 			.signup(email, password)
 			.then((response) => {
-				if (response.user) {
-					setUser({id: response.user.uid, name, email});
-					goTo('/');
+				if (!response.user) {
+					alert('Error signing up');
+					return;
 				}
+
+				firebaseFirestore
+					.createUser({
+						id: response.user.uid,
+						name,
+						email,
+						favorites: getFirestoreFavorites(favorites),
+						cart: getFirestoreCart(cart),
+						orders: getFirestoreOrders(orders),
+					})
+					.then(() => {
+						setUser({id: response.user.uid, name, email});
+						goTo('/');
+					})
+					.catch(() => alert('Error signing up'));
 			})
 			.catch(({code}: {code: string}) => {
 				if (code === 'auth/email-already-in-use') alert('Email already in use');
@@ -90,16 +124,24 @@ export const MyProvider = (props: ProviderProps) => {
 			});
 
 	const logout = () =>
-		firebaseAuth.signout().then(() => {
-			setUser(null);
-			setFavorites([]);
-			setCart([]);
-			setOrders([]);
-			goTo('/login');
-		});
+		firebaseAuth
+			.signout()
+			.then(() => {
+				setUser(null);
+				setFavorites([]);
+				setCart([]);
+				setOrders([]);
+				goTo('/login');
+			})
+			.catch(() => alert('Error logging out'));
 
 	const editProfile = async (name: string) => {
-		if (user) setUser({...user, name});
+		if (user) {
+			firebaseFirestore
+				.updateProfile(user.id, name)
+				.then(() => setUser({...user, name}))
+				.catch(() => alert('Error editing profile'));
+		}
 	};
 
 	const changePassword = (password: string) =>
@@ -120,8 +162,13 @@ export const MyProvider = (props: ProviderProps) => {
 		firebaseAuth
 			.deleteAccount()
 			.then(() => {
-				alert('Account deleted successfully');
-				logout();
+				firebaseFirestore
+					.deleteUser(user?.id || '')
+					.then(() => {
+						alert('Account deleted successfully');
+						logout();
+					})
+					.catch(() => alert('Error deleting account'));
 			})
 			.catch(({code}: {code: string}) => {
 				if (code === 'auth/requires-recent-login') alert('Recent login required');
@@ -141,6 +188,7 @@ export const MyProvider = (props: ProviderProps) => {
 		// Get products
 		const newProducts: Product[] = response.data.map((product: Product) => ({
 			...product,
+			id: product.id.toString(),
 			category: normalizeText(product.category),
 		}));
 
@@ -176,8 +224,23 @@ export const MyProvider = (props: ProviderProps) => {
 
 	// Favorites
 	const [favorites, setFavorites] = useState<Product[]>([]);
-	const addFavorite = (product: Product) => setFavorites([...favorites, product]);
-	const removeFavorite = (product: Product) => setFavorites(favorites.filter((p) => p.id !== product.id));
+
+	const addFavorite = (product: Product) => {
+		const newFavorites = [...favorites, product];
+		setFavorites(newFavorites);
+
+		if (user) {
+			firebaseFirestore.updateFavorites(user.id, getFirestoreFavorites(newFavorites));
+		}
+	};
+	const removeFavorite = (product: Product) => {
+		const newFavorites = favorites.filter((p) => p.id !== product.id);
+		setFavorites(newFavorites);
+
+		if (user) {
+			firebaseFirestore.updateFavorites(user.id, getFirestoreFavorites(newFavorites));
+		}
+	};
 
 	// Product detail
 	const [productToShow, setProductToShow] = useState<Product>();
@@ -191,12 +254,34 @@ export const MyProvider = (props: ProviderProps) => {
 
 	// Cart
 	const [cart, setCart] = useState<Cart>([]);
-	const addToCart = (product: Product) => setCart([...cart, {product, quantity: 1}]);
-	const removeFromCart = (product: Product) => setCart(cart.filter((p) => p.product.id !== product.id));
+
+	const addToCart = (product: Product) => {
+		const newCart = [...cart, {product, quantity: 1}];
+		setCart(newCart);
+
+		if (user) {
+			firebaseFirestore.updateCart(user.id, getFirestoreCart(newCart));
+		}
+	};
+
+	const removeFromCart = (product: Product) => {
+		const newCart = cart.filter((p) => p.product.id !== product.id);
+		setCart(newCart);
+
+		if (user) {
+			firebaseFirestore.updateCart(user.id, getFirestoreCart(newCart));
+		}
+	};
 
 	const changeQuantity = (product: Product, quantity: number) => {
 		if (quantity <= 0) return removeFromCart(product);
-		setCart(cart.map((p) => (p.product.id === product.id ? {...p, quantity} : p)));
+
+		const newCart = cart.map((p) => (p.product.id === product.id ? {...p, quantity} : p));
+		setCart(newCart);
+
+		if (user) {
+			firebaseFirestore.updateCart(user.id, getFirestoreCart(newCart));
+		}
 	};
 
 	const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState<boolean>(false);
@@ -213,14 +298,21 @@ export const MyProvider = (props: ProviderProps) => {
 
 	const handleCheckout = () => {
 		const newOrder: Order = {
-			id: new Date().getTime(),
+			id: new Date().getTime().toString(),
 			date: new Date().toISOString(),
 			products: cart,
 		};
 
-		setOrders([...orders, newOrder]);
+		const newOrders = [...orders, newOrder];
+
+		setOrders(newOrders);
 		setCart([]);
 		closeCheckoutSideMenu();
+
+		if (user) {
+			firebaseFirestore.updateOrders(user.id, getFirestoreOrders(newOrders));
+			firebaseFirestore.updateCart(user.id, []);
+		}
 	};
 
 	// Data persistence

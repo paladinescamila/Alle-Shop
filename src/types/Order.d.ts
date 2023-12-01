@@ -1,5 +1,5 @@
 type Order = {
-	id: number;
+	id: string;
 	date: string;
 	products: {
 		product: Product;

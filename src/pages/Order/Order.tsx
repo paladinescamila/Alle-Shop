@@ -15,7 +15,7 @@ export default function Order() {
 	let order: Order | undefined;
 
 	if (subPath === 'last') order = orders?.[orders.length - 1];
-	else order = orders?.find((order) => order.id === Number(params.id));
+	else order = orders?.find((order) => order.id === params.id);
 
 	return (
 		<Layout>
