@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import Layout from '../../components/Layout/Layout';
 import Button from '../../components/Button/Button';
-import {KeyIcon} from '@heroicons/react/24/outline';
+import {KeyIcon, ArrowLeftIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function ChangePassword() {
-	const {changePassword} = useMyContext();
+	const {changePassword, goTo} = useMyContext();
 
 	const [oldPassword, setOldPassword] = useState<string>('');
 	const [newPassword, setNewPassword] = useState<string>('');
@@ -29,7 +29,13 @@ export default function ChangePassword() {
 
 	return (
 		<Layout>
-			<h1 className='font-medium text-xl text-center mb-6'>Change Password</h1>
+			<h1 className='font-medium text-xl mb-6 w-80'>
+				<ArrowLeftIcon
+					className='w-6 inline-block mr-2 text-gray-400 hover:text-black cursor-pointer'
+					onClick={() => goTo('/account')}
+				/>
+				<span className='text-center'>Change Password</span>
+			</h1>
 			<form className='flex flex-col w-80' onSubmit={(e) => e.preventDefault()}>
 				<div className='w-full relative mb-3'>
 					<input

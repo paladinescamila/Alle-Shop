@@ -78,10 +78,10 @@ export default function Card(props: Props) {
 					)}
 				</div>
 				<div
-					className={`absolute top-0 right-0 border border-gray-300 ${
+					className={`absolute top-0 right-0 border ${
 						productWasAdded ? 'flex' : isDesktop ? 'hidden' : 'flex'
 					} justify-center items-center h-6 cursor-pointer group-hover:flex ${
-						productWasAdded ? 'bg-black' : 'bg-white'
+						productWasAdded ? 'bg-black border-black' : 'bg-white border-gray-300'
 					}`}
 					onClick={addOrRemoveToCart}>
 					{productWasAdded ? null : (

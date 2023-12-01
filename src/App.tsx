@@ -15,6 +15,7 @@ import Favorites from './pages/Favorites/Favorites';
 import Account from './pages/Account/Account';
 import LogIn from './pages/LogIn/LogIn';
 import SignUp from './pages/SignUp/SignUp';
+import EditProfile from './pages/EditProfile/EditProfile';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import NotFound from './pages/NotFound/NotFound';
 
@@ -43,6 +44,7 @@ const AppRoutes = () => {
 		{path: '/account', element: <Account />},
 		{path: '/login', element: <LogIn />},
 		{path: '/signup', element: <SignUp />},
+		{path: '/edit-profile', element: <EditProfile />},
 		{path: '/change-password', element: <ChangePassword />},
 
 		// Not found

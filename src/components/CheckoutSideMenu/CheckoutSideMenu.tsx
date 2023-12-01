@@ -33,7 +33,7 @@ export default function CheckoutSideMenu() {
 					</div>
 					<div className='px-6 mb-6 mt-3'>
 						<p className='flex justify-between items-center mb-2'>
-							<span className='font-light'>Total:</span>
+							<span className='font-light'>Total</span>
 							<span className='font-medium'>${getTotalPrice(cart).toLocaleString()}</span>
 						</p>
 						<Link to='/orders/last'>

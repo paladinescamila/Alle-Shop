@@ -1,17 +1,17 @@
 import {XMarkIcon, PlusIcon, MinusIcon} from '@heroicons/react/24/solid';
+import Button from '../Button/Button';
 import {useMyContext} from '../../context';
 import {useResponsive} from '../../utils';
 
 export default function ProductDetail() {
 	const {productToShow, closeProductDetail} = useMyContext();
-	const {cart, addToCart, removeFromCart, openCheckoutSideMenu} = useMyContext();
+	const {cart, addToCart, removeFromCart} = useMyContext();
 	const {isMobile} = useResponsive();
 
 	const productInCart = cart.find(({product}) => product.id === productToShow?.id);
 
 	const addOrRemoveFromCart = () => {
 		if (!productToShow) return;
-		openCheckoutSideMenu();
 
 		if (productInCart) removeFromCart(productToShow);
 		else addToCart(productToShow);
@@ -40,16 +40,19 @@ export default function ProductDetail() {
 						<span className='font-medium text-2md'>{productToShow.title}</span>
 						<span className='font-light text-sm'>{productToShow.description}</span>
 					</p>
-					<button
-						className='flex gap-3 items-center justify-center w-full py-3 mt-auto border border-black bg-white'
-						onClick={addOrRemoveFromCart}>
-						{productInCart ? (
-							<MinusIcon className='h-5 w-5 cursor-pointer' />
-						) : (
-							<PlusIcon className='h-5 w-5 cursor-pointer' />
-						)}
-						{productInCart ? 'Remove from cart' : 'Add to cart'}
-					</button>
+					<Button
+						text={productInCart ? 'Remove from cart' : 'Add to cart'}
+						onClick={addOrRemoveFromCart}
+						icon={
+							productInCart ? (
+								<MinusIcon className='h-5 w-5' />
+							) : (
+								<PlusIcon className='h-5 w-5' />
+							)
+						}
+						className='mt-auto'
+						secondary
+					/>
 				</>
 			)}
 		</aside>

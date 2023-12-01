@@ -5,10 +5,13 @@ import {useNavigate} from 'react-router-dom';
 import {firebaseAuth} from '../firebase/auth';
 
 interface ContextProps {
+	goTo: (path: string) => void;
+
 	user: User | null;
 	login: (email: string, password: string) => Promise<void>;
 	signup: (name: string, email: string, password: string) => Promise<void>;
 	logout: () => Promise<void>;
+	editProfile: (name: string) => Promise<void>;
 	changePassword: (password: string) => Promise<void>;
 	deleteAccount: () => Promise<void>;
 
@@ -44,7 +47,10 @@ interface ProviderProps {
 }
 
 export const MyProvider = (props: ProviderProps) => {
+	// Navigation
 	const navigate = useNavigate();
+
+	const goTo = (path: string) => navigate(path);
 
 	// Account
 	const [user, setUser] = useState<User | null>(null);
@@ -55,11 +61,12 @@ export const MyProvider = (props: ProviderProps) => {
 
 			if (response.user) {
 				setUser({id: response.user.uid, name: response.user.displayName || '', email});
-				navigate('/');
+				goTo('/');
 			}
 		} catch (error) {
 			if (error.code === 'auth/wrong-password') alert('Wrong password');
 			else if (error.code === 'auth/user-not-found') alert('User not found');
+			else if (error.code === 'auth/invalid-credential') alert('Invalid credential');
 			else if (error.code === 'auth/network-request-failed') alert('Network error');
 			else alert('Error logging in');
 		}
@@ -75,7 +82,7 @@ export const MyProvider = (props: ProviderProps) => {
 					name: name || '',
 					email,
 				});
-				navigate('/');
+				goTo('/');
 			}
 		} catch (error) {
 			if (error.code === 'auth/email-already-in-use') alert('Email already in use');
@@ -92,16 +99,20 @@ export const MyProvider = (props: ProviderProps) => {
 			setFavorites([]);
 			setCart([]);
 			setOrders([]);
-			navigate('/login');
+			goTo('/login');
 		});
+
+	const editProfile = async (name: string) => {
+		if (user) setUser({...user, name});
+	};
 
 	const changePassword = async (password: string) => {
 		try {
 			await firebaseAuth.changePassword(password);
 			alert('Password changed successfully');
-			navigate('/account');
+			goTo('/account');
 		} catch (error) {
-			if (error.code === 'auth/requires-recent-login') alert('Please log in again');
+			if (error.code === 'auth/requires-recent-login') alert('Recent login required');
 			else if (error.code === 'auth/weak-password') alert('Weak password');
 			else if (error.code === 'auth/network-request-failed') alert('Network error');
 			else alert('Error changing password');
@@ -114,7 +125,7 @@ export const MyProvider = (props: ProviderProps) => {
 			alert('Account deleted successfully');
 			logout();
 		} catch (error) {
-			if (error.code === 'auth/requires-recent-login') alert('Please log in again');
+			if (error.code === 'auth/requires-recent-login') alert('Recent login required');
 			else if (error.code === 'auth/network-request-failed') alert('Network error');
 			else alert('Error deleting account');
 		}
@@ -244,10 +255,13 @@ export const MyProvider = (props: ProviderProps) => {
 	return (
 		<MyContext.Provider
 			value={{
+				goTo,
+
 				user,
 				login,
 				signup,
 				logout,
+				editProfile,
 				changePassword,
 				deleteAccount,
 
