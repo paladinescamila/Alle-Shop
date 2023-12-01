@@ -55,43 +55,39 @@ export const MyProvider = (props: ProviderProps) => {
 	// Account
 	const [user, setUser] = useState<User | null>(null);
 
-	const login = async (email: string, password: string) => {
-		try {
-			const response = await firebaseAuth.login(email, password);
+	const login = (email: string, password: string) =>
+		firebaseAuth
+			.login(email, password)
+			.then((response) => {
+				if (response.user) {
+					setUser({id: response.user.uid, name: response.user.displayName || '', email});
+					goTo('/');
+				}
+			})
+			.catch(({code}: {code: string}) => {
+				if (code === 'auth/wrong-password') alert('Wrong password');
+				else if (code === 'auth/user-not-found') alert('User not found');
+				else if (code === 'auth/invalid-credential') alert('Invalid credential');
+				else if (code === 'auth/network-request-failed') alert('Network error');
+				else alert('Error logging in');
+			});
 
-			if (response.user) {
-				setUser({id: response.user.uid, name: response.user.displayName || '', email});
-				goTo('/');
-			}
-		} catch (error) {
-			if (error.code === 'auth/wrong-password') alert('Wrong password');
-			else if (error.code === 'auth/user-not-found') alert('User not found');
-			else if (error.code === 'auth/invalid-credential') alert('Invalid credential');
-			else if (error.code === 'auth/network-request-failed') alert('Network error');
-			else alert('Error logging in');
-		}
-	};
-
-	const signup = async (name: string, email: string, password: string) => {
-		try {
-			const response = await firebaseAuth.signup(email, password);
-
-			if (response.user) {
-				setUser({
-					id: response.user.uid,
-					name: name || '',
-					email,
-				});
-				goTo('/');
-			}
-		} catch (error) {
-			if (error.code === 'auth/email-already-in-use') alert('Email already in use');
-			else if (error.code === 'auth/invalid-email') alert('Invalid email');
-			else if (error.code === 'auth/weak-password') alert('Weak password');
-			else if (error.code === 'auth/network-request-failed') alert('Network error');
-			else alert('Error signing up');
-		}
-	};
+	const signup = (name: string, email: string, password: string) =>
+		firebaseAuth
+			.signup(email, password)
+			.then((response) => {
+				if (response.user) {
+					setUser({id: response.user.uid, name, email});
+					goTo('/');
+				}
+			})
+			.catch(({code}: {code: string}) => {
+				if (code === 'auth/email-already-in-use') alert('Email already in use');
+				else if (code === 'auth/invalid-email') alert('Invalid email');
+				else if (code === 'auth/weak-password') alert('Weak password');
+				else if (code === 'auth/network-request-failed') alert('Network error');
+				else alert('Error signing up');
+			});
 
 	const logout = () =>
 		firebaseAuth.signout().then(() => {
@@ -106,30 +102,32 @@ export const MyProvider = (props: ProviderProps) => {
 		if (user) setUser({...user, name});
 	};
 
-	const changePassword = async (password: string) => {
-		try {
-			await firebaseAuth.changePassword(password);
-			alert('Password changed successfully');
-			goTo('/account');
-		} catch (error) {
-			if (error.code === 'auth/requires-recent-login') alert('Recent login required');
-			else if (error.code === 'auth/weak-password') alert('Weak password');
-			else if (error.code === 'auth/network-request-failed') alert('Network error');
-			else alert('Error changing password');
-		}
-	};
+	const changePassword = (password: string) =>
+		firebaseAuth
+			.changePassword(password)
+			.then(() => {
+				alert('Password changed successfully');
+				goTo('/account');
+			})
+			.catch(({code}: {code: string}) => {
+				if (code === 'auth/requires-recent-login') alert('Recent login required');
+				else if (code === 'auth/weak-password') alert('Weak password');
+				else if (code === 'auth/network-request-failed') alert('Network error');
+				else alert('Error changing password');
+			});
 
-	const deleteAccount = async () => {
-		try {
-			await firebaseAuth.deleteAccount();
-			alert('Account deleted successfully');
-			logout();
-		} catch (error) {
-			if (error.code === 'auth/requires-recent-login') alert('Recent login required');
-			else if (error.code === 'auth/network-request-failed') alert('Network error');
-			else alert('Error deleting account');
-		}
-	};
+	const deleteAccount = () =>
+		firebaseAuth
+			.deleteAccount()
+			.then(() => {
+				alert('Account deleted successfully');
+				logout();
+			})
+			.catch(({code}: {code: string}) => {
+				if (code === 'auth/requires-recent-login') alert('Recent login required');
+				else if (code === 'auth/network-request-failed') alert('Network error');
+				else alert('Error deleting account');
+			});
 
 	// Products
 	const [products, setProducts] = useState<Product[]>([]);

@@ -6,5 +6,5 @@ export const firebaseAuth = {
 	signup: (email: string, password: string) => createUserWithEmailAndPassword(auth, email, password),
 	signout: () => auth.signOut(),
 	changePassword: (password: string) => updatePassword(auth.currentUser!, password),
-	deleteAccount: () => auth.currentUser?.delete(),
+	deleteAccount: () => auth.currentUser?.delete() || Promise.resolve(),
 };
