@@ -6,7 +6,7 @@ import {EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function LogIn() {
-	const {user, login} = useMyContext();
+	const {user, login, openAlert} = useMyContext();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
@@ -16,7 +16,10 @@ export default function LogIn() {
 	};
 
 	const loginHandler = () => {
-		if (email === '' || password === '') return alert('Please fill all fields');
+		if (email === '' || password === '') {
+			openAlert('Please fill all fields', 'warning');
+			return;
+		}
 
 		login(email, password).then(afterLogin);
 	};

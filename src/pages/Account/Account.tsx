@@ -10,7 +10,7 @@ import {
 import {useMyContext} from '../../context';
 
 export default function Account() {
-	const {user, logout, deleteAccount, goTo} = useMyContext();
+	const {user, logout, deleteAccount, goTo, openAlert} = useMyContext();
 
 	if (user === null) {
 		goTo('/login');
@@ -18,9 +18,12 @@ export default function Account() {
 	}
 
 	const deleteAccountHandler = () => {
-		if (window.confirm('Are you sure you want to delete your account?')) {
-			deleteAccount();
-		}
+		openAlert(
+			'Are you sure you want to delete your account? This action cannot be undone.',
+			'question',
+			deleteAccount,
+			() => {}
+		);
 	};
 
 	return (

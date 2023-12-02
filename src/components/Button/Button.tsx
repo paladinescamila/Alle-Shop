@@ -17,7 +17,7 @@ export default function Button(props: Props) {
 					? 'bg-white text-red-700 border-red-700 hover:bg-red-100'
 					: secondary
 					? 'bg-white text-black border-black hover:bg-black hover:text-white'
-					: 'bg-black text-white'
+					: 'bg-black text-white border-black'
 			} ${className}`}
 			onClick={onClick}>
 			{icon && <span className='mr-2'>{icon}</span>}

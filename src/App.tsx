@@ -18,6 +18,7 @@ import SignUp from './pages/SignUp/SignUp';
 import EditProfile from './pages/EditProfile/EditProfile';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import NotFound from './pages/NotFound/NotFound';
+import Alert from './components/Alert/Alert';
 
 const AppRoutes = () => {
 	const {categories} = useMyContext();
@@ -59,6 +60,7 @@ function App() {
 			<NavBar />
 			<ProductDetail />
 			<CheckoutSideMenu />
+			<Alert />
 		</>
 	);
 }

@@ -6,7 +6,7 @@ import {UserIcon, EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function SignUp() {
-	const {user, signup} = useMyContext();
+	const {user, signup, openAlert} = useMyContext();
 
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
@@ -15,7 +15,7 @@ export default function SignUp() {
 
 	const signupHandler = () => {
 		if (password !== confirmPassword) {
-			alert('Passwords do not match');
+			openAlert('Passwords do not match', 'warning');
 			return;
 		}
 

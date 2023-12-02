@@ -5,7 +5,7 @@ import {KeyIcon, ArrowLeftIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function ChangePassword() {
-	const {changePassword, goTo} = useMyContext();
+	const {changePassword, goTo, openAlert} = useMyContext();
 
 	const [oldPassword, setOldPassword] = useState<string>('');
 	const [newPassword, setNewPassword] = useState<string>('');
@@ -13,17 +13,20 @@ export default function ChangePassword() {
 
 	const changePasswordHandler = () => {
 		if (oldPassword === '' || newPassword === '' || confirmNewPassword === '') {
-			return alert('Please fill all fields');
+			openAlert('Please fill all fields', 'warning');
+			return;
 		}
 
 		if (newPassword !== confirmNewPassword) {
-			return alert('Passwords do not match');
+			openAlert('Passwords do not match', 'warning');
+			return;
 		}
 
 		changePassword(newPassword).then(() => {
 			setOldPassword('');
 			setNewPassword('');
 			setConfirmNewPassword('');
+			goTo('/account');
 		});
 	};
 

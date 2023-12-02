@@ -5,17 +5,19 @@ import {UserIcon, ArrowLeftIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function EditProfile() {
-	const {editProfile, goTo} = useMyContext();
+	const {user, editProfile, goTo, openAlert} = useMyContext();
 
-	const [name, setName] = useState<string>('');
+	const [name, setName] = useState<string>(user?.name || '');
 
 	const editProfileHandler = () => {
 		if (name === '') {
-			return alert('Please fill all fields');
+			openAlert('Please fill all fields', 'warning');
+			return;
 		}
 
 		editProfile(name).then(() => {
 			setName('');
+			goTo('/account');
 		});
 	};
 

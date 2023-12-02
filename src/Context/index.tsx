@@ -9,6 +9,15 @@ import {firebaseFirestore} from '../firebase/firestore';
 
 interface ContextProps {
 	goTo: (path: string) => void;
+	alert: Alert;
+	showAlert: boolean;
+	openAlert: (
+		text: string,
+		type: 'success' | 'error' | 'question' | 'warning',
+		onAccept?: () => void,
+		onCancel?: () => void
+	) => void;
+	closeAlert: () => void;
 
 	user: User | null;
 	login: (email: string, password: string) => Promise<void>;
@@ -55,6 +64,44 @@ export const MyProvider = (props: ProviderProps) => {
 
 	const goTo = (path: string) => navigate(path);
 
+	const [alert, setAlert] = useState<Alert>({
+		text: ' ',
+		type: 'success',
+		onAccept: () => {},
+		onCancel: () => {},
+	});
+
+	const [showAlert, setShowAlert] = useState<boolean>(false);
+
+	const openAlert = (
+		text: string,
+		type: 'success' | 'error' | 'question' | 'warning',
+		onAccept?: () => void,
+		onCancel?: () => void
+	) => {
+		setShowAlert(false);
+		setAlert({
+			text: ' ',
+			type: 'success',
+			onAccept: onAccept || (() => {}),
+			onCancel: onCancel || (() => {}),
+		});
+
+		setTimeout(() => {
+			setShowAlert(true);
+			setAlert({
+				text,
+				type,
+				onAccept: onAccept || (() => {}),
+				onCancel: onCancel || (() => {}),
+			});
+
+			if (type !== 'question') setTimeout(() => setShowAlert(false), 3.5 * 1000);
+		}, 100);
+	};
+
+	const closeAlert = () => setShowAlert(false);
+
 	// Account
 	const [user, setUser] = useState<User | null>(null);
 
@@ -63,7 +110,7 @@ export const MyProvider = (props: ProviderProps) => {
 			.login(email, password)
 			.then((response) => {
 				if (!response.user) {
-					alert('Error logging in');
+					openAlert('Error logging in', 'error');
 					return;
 				}
 
@@ -71,7 +118,7 @@ export const MyProvider = (props: ProviderProps) => {
 					.getData(response.user.uid)
 					.then((data) => {
 						if (!data) {
-							alert('Error logging in');
+							openAlert('Error logging in', 'error');
 							return;
 						}
 
@@ -81,14 +128,14 @@ export const MyProvider = (props: ProviderProps) => {
 						setOrders(getOrders(data.orders, products));
 						goTo('/');
 					})
-					.catch(() => alert('Error logging in'));
+					.catch(() => openAlert('Error logging in', 'error'));
 			})
 			.catch(({code}: {code: string}) => {
-				if (code === 'auth/wrong-password') alert('Wrong password');
-				else if (code === 'auth/user-not-found') alert('User not found');
-				else if (code === 'auth/invalid-credential') alert('Invalid credential');
-				else if (code === 'auth/network-request-failed') alert('Network error');
-				else alert('Error logging in');
+				if (code === 'auth/wrong-password') openAlert('Wrong password', 'error');
+				else if (code === 'auth/user-not-found') openAlert('User not found', 'error');
+				else if (code === 'auth/invalid-credential') openAlert('Invalid credential', 'error');
+				else if (code === 'auth/network-request-failed') openAlert('Network error', 'error');
+				else openAlert('Error logging in', 'error');
 			});
 
 	const signup = (name: string, email: string, password: string) =>
@@ -96,7 +143,7 @@ export const MyProvider = (props: ProviderProps) => {
 			.signup(email, password)
 			.then((response) => {
 				if (!response.user) {
-					alert('Error signing up');
+					openAlert('Error signing up', 'error');
 					return;
 				}
 
@@ -113,14 +160,14 @@ export const MyProvider = (props: ProviderProps) => {
 						setUser({id: response.user.uid, name, email});
 						goTo('/');
 					})
-					.catch(() => alert('Error signing up'));
+					.catch(() => openAlert('Error signing up', 'error'));
 			})
 			.catch(({code}: {code: string}) => {
-				if (code === 'auth/email-already-in-use') alert('Email already in use');
-				else if (code === 'auth/invalid-email') alert('Invalid email');
-				else if (code === 'auth/weak-password') alert('Weak password');
-				else if (code === 'auth/network-request-failed') alert('Network error');
-				else alert('Error signing up');
+				if (code === 'auth/email-already-in-use') openAlert('Email already in use', 'error');
+				else if (code === 'auth/invalid-email') openAlert('Invalid email', 'error');
+				else if (code === 'auth/weak-password') openAlert('Weak password', 'error');
+				else if (code === 'auth/network-request-failed') openAlert('Network error', 'error');
+				else openAlert('Error signing up', 'error');
 			});
 
 	const logout = () =>
@@ -133,14 +180,18 @@ export const MyProvider = (props: ProviderProps) => {
 				setOrders([]);
 				goTo('/login');
 			})
-			.catch(() => alert('Error logging out'));
+			.catch(() => openAlert('Error logging out', 'error'));
 
 	const editProfile = async (name: string) => {
 		if (user) {
 			firebaseFirestore
 				.updateProfile(user.id, name)
-				.then(() => setUser({...user, name}))
-				.catch(() => alert('Error editing profile'));
+				.then(() => {
+					setUser({...user, name});
+					openAlert('Profile edited successfully', 'success');
+					goTo('/account');
+				})
+				.catch(() => openAlert('Error editing profile', 'error'));
 		}
 	};
 
@@ -148,14 +199,14 @@ export const MyProvider = (props: ProviderProps) => {
 		firebaseAuth
 			.changePassword(password)
 			.then(() => {
-				alert('Password changed successfully');
+				openAlert('Password changed successfully', 'success');
 				goTo('/account');
 			})
 			.catch(({code}: {code: string}) => {
-				if (code === 'auth/requires-recent-login') alert('Recent login required');
-				else if (code === 'auth/weak-password') alert('Weak password');
-				else if (code === 'auth/network-request-failed') alert('Network error');
-				else alert('Error changing password');
+				if (code === 'auth/requires-recent-login') openAlert('Recent login required', 'error');
+				else if (code === 'auth/weak-password') openAlert('Weak password', 'error');
+				else if (code === 'auth/network-request-failed') openAlert('Network error', 'error');
+				else openAlert('Error changing password', 'error');
 			});
 
 	const deleteAccount = () =>
@@ -165,15 +216,15 @@ export const MyProvider = (props: ProviderProps) => {
 				firebaseFirestore
 					.deleteUser(user?.id || '')
 					.then(() => {
-						alert('Account deleted successfully');
+						openAlert('Account deleted successfully', 'success');
 						logout();
 					})
-					.catch(() => alert('Error deleting account'));
+					.catch(() => openAlert('Error deleting account', 'error'));
 			})
 			.catch(({code}: {code: string}) => {
-				if (code === 'auth/requires-recent-login') alert('Recent login required');
-				else if (code === 'auth/network-request-failed') alert('Network error');
-				else alert('Error deleting account');
+				if (code === 'auth/requires-recent-login') openAlert('Recent login required', 'error');
+				else if (code === 'auth/network-request-failed') openAlert('Network error', 'error');
+				else openAlert('Error deleting account', 'error');
 			});
 
 	// Products
@@ -346,6 +397,10 @@ export const MyProvider = (props: ProviderProps) => {
 		<MyContext.Provider
 			value={{
 				goTo,
+				alert,
+				showAlert,
+				openAlert,
+				closeAlert,
 
 				user,
 				login,
