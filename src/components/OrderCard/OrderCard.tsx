@@ -50,7 +50,11 @@ export default function OrderCard(props: Props) {
 								className='h-6 w-6 p-1 border-r border-gray-300 text-black/70 cursor-pointer hover:bg-gray-100 hover:text-black/90 rounded-s'
 								onClick={decreaseQuantity}
 							/>
-							<div contentEditable onChange={onChange} className='min-w-[45px] text-center'>
+							<div
+								contentEditable
+								suppressContentEditableWarning
+								onChange={onChange}
+								className='min-w-[45px] text-center'>
 								{quantity}
 							</div>
 							<PlusIcon

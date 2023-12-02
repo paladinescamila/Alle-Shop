@@ -15,7 +15,7 @@ export const getCart = (cart: FirestoreCart, products: Product[]) => {
 	const cartItems: CartItem[] = [];
 
 	for (const item of cart) {
-		const product = products.find((p) => p.id === item.product);
+		const product = products.find((p) => p.id === item.productID);
 		if (product) cartItems.push({product, quantity: item.quantity});
 	}
 
@@ -23,10 +23,10 @@ export const getCart = (cart: FirestoreCart, products: Product[]) => {
 };
 
 export const getOrders = (orders: FirestoreOrders, products: Product[]) => {
-	const mapped = orders.map(({id, date, products: productsID}) => {
-		const mappedProducts = productsID.map(({product, quantity}) => {
-			const productData = products.find((p) => p.id === product);
-			return {...productData, quantity};
+	const mapped = orders.map(({id, date, products: productsIDs}) => {
+		const mappedProducts = productsIDs.map(({productID, quantity}) => {
+			const product = products.find((p) => p.id === productID);
+			return {product, quantity};
 		}) as CartItem[];
 
 		return {id, date, products: mappedProducts};
@@ -39,11 +39,11 @@ export const getOrders = (orders: FirestoreOrders, products: Product[]) => {
 export const getFirestoreFavorites = (favorites: Product[]) => favorites.map((p) => p.id);
 
 export const getFirestoreCart = (cart: CartItem[]) =>
-	cart.map(({product, quantity}) => ({product: product.id, quantity}));
+	cart.map(({product, quantity}) => ({productID: product.id, quantity}));
 
 export const getFirestoreOrders = (orders: Order[]) =>
 	orders.map(({id, date, products}) => ({
 		id,
 		date,
-		products: products.map(({product, quantity}) => ({product: product.id, quantity})),
+		products: products.map(({product, quantity}) => ({productID: product.id, quantity})),
 	}));

@@ -1,5 +1,5 @@
 type FirestoreCart = {
-	product: string;
+	productID: string;
 	quantity: number;
 }[];
 
@@ -7,7 +7,7 @@ type FirestoreOrders = {
 	id: string;
 	date: firebase.firestore.Timestamp;
 	products: {
-		product: string;
+		productID: string;
 		quantity: number;
 	}[];
 }[];
