@@ -26,7 +26,7 @@ export default function Order() {
 				<h1 className='font-medium text-xl'>My Order</h1>
 			</div>
 			{order ? (
-				<p className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border border-gray-300'>
+				<div className='flex justify-between items-center mb-10 w-80 mt-auto p-2 border border-gray-300'>
 					<p className='font-light flex flex-col'>
 						<span className='text-lg'>{new Date(order.date).toLocaleDateString()}</span>
 						<span className='text-xs text-black/50'>
@@ -36,7 +36,7 @@ export default function Order() {
 					<span className='font-medium text-xl'>
 						${getTotalPrice(order.products).toLocaleString()}
 					</span>
-				</p>
+				</div>
 			) : (
 				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>
 					The order you are looking for doesn't exist.
