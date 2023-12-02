@@ -17,11 +17,11 @@ export default function Alert() {
 
 	return (
 		<div
-			className={`fixed top-0 flex justify-center items-center z-50 p-5
+			className={`fixed w-[300px] top-0 flex justify-center items-center z-50 p-5
 		transition-all duration-500 ease-in-out
-		 ${showAlert ? 'right-0' : 'right-[calc(-100vw)]'}`}>
+		 ${showAlert ? 'right-0' : 'right-[-300px]'}`}>
 			<div
-				className={`border px-5 py-3 flex gap-3 justify-center relative ${
+				className={`border px-5 py-4 flex gap-3 justify-center relative ${
 					alert.type === 'question'
 						? 'flex-col w-full  bg-sky-50 border-sky-700'
 						: alert.type === 'success'
@@ -57,12 +57,12 @@ export default function Alert() {
 				{alert.type === 'question' && (
 					<div className='flex justify-center mt-5 gap-3'>
 						<button
-							className='px-10 py-2 border border-sky-700 text-sm text-white bg-sky-700 hover:bg-sky-800 transition-all duration-300 ease-in-out'
+							className='w-full py-2 border border-sky-700 text-sm text-white bg-sky-700 hover:bg-sky-800 transition-all duration-300 ease-in-out'
 							onClick={onAcceptHandler}>
 							Accept
 						</button>
 						<button
-							className='px-10 py-2 border border-sky-700 text-sm text-sky-700 hover:bg-sky-100 transition-all duration-300 ease-in-out'
+							className='w-full py-2 border border-sky-700 text-sm text-sky-700 hover:bg-sky-100 transition-all duration-300 ease-in-out'
 							onClick={onCancelHandler}>
 							Cancel
 						</button>
