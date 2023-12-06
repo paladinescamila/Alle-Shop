@@ -1,3 +1,4 @@
+import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import OrdersCard from '../../components/OrdersCard/OrdersCard';
@@ -8,47 +9,53 @@ export default function Orders() {
 	const {orders} = useMyContext();
 	const {isSmallDesktop, isTablet, isSmallTablet, isMobile} = useResponsive();
 
-	const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
+	const [todaysOrders, setTodaysOrders] = useState<Order[]>([]);
+	const [yesterdaysOrders, setYesterdaysOrders] = useState<Order[]>([]);
+	const [lastWeeksOrders, setLastWeeksOrders] = useState<Order[]>([]);
+	const [olderOrders, setOlderOrders] = useState<Order[]>([]);
 
-	const today = new Date(),
-		yesterday = new Date(today),
-		lastWeek = new Date(today);
+	useEffect(() => {
+		const today = new Date();
+		const yesterday = new Date(today);
+		const lastWeek = new Date(today);
 
-	const todaysOrders = orders
-		.filter((order) => {
+		const newTodaysOrders: Order[] = [];
+		const newYesterdaysOrders: Order[] = [];
+		const newLastWeeksOrders: Order[] = [];
+		const newOlderOrders: Order[] = [];
+
+		for (const order of orders) {
 			const orderDate = new Date(order.date);
 
-			return (
+			if (
 				orderDate.getDate() === today.getDate() &&
 				orderDate.getMonth() === today.getMonth() &&
 				orderDate.getFullYear() === today.getFullYear()
-			);
-		})
-		.sort(compare);
-
-	const yesterdaysOrders = orders
-		.filter((order) => {
-			const orderDate = new Date(order.date);
-
-			return (
+			)
+				newTodaysOrders.push(order);
+			else if (
 				orderDate.getDate() === yesterday.setDate(yesterday.getDate() - 1) &&
 				orderDate.getMonth() === yesterday.getMonth() &&
 				orderDate.getFullYear() === yesterday.getFullYear()
-			);
-		})
-		.sort(compare);
-
-	const lastWeeksOrders = orders
-		.filter((order) => {
-			const orderDate = new Date(order.date);
-
-			return (
+			)
+				newYesterdaysOrders.push(order);
+			else if (
 				orderDate.getDate() >= lastWeek.setDate(lastWeek.getDate() - 7) &&
 				orderDate.getMonth() === lastWeek.getMonth() &&
 				orderDate.getFullYear() === lastWeek.getFullYear()
-			);
-		})
-		.sort(compare);
+			)
+				newLastWeeksOrders.push(order);
+			else newOlderOrders.push(order);
+
+			const compare = (a: Order, b: Order) => new Date(b.date).getTime() - new Date(a.date).getTime();
+
+			setTodaysOrders(newTodaysOrders.sort(compare));
+			setYesterdaysOrders(newYesterdaysOrders.sort(compare));
+			setLastWeeksOrders(newLastWeeksOrders.sort(compare));
+			setOlderOrders(newOlderOrders.sort(compare));
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [orders]);
 
 	return (
 		<Layout>
@@ -81,6 +88,16 @@ export default function Orders() {
 						<>
 							<h2 className='font-medium text-lg mb-2'>Last week</h2>
 							{lastWeeksOrders.map((order, index) => (
+								<Link to={`/orders/${order.id}`} key={index}>
+									<OrdersCard key={order.id} order={order} />
+								</Link>
+							))}
+						</>
+					)}
+					{olderOrders.length > 0 && (
+						<>
+							<h2 className='font-medium text-lg mb-2'>Older</h2>
+							{olderOrders.map((order, index) => (
 								<Link to={`/orders/${order.id}`} key={index}>
 									<OrdersCard key={order.id} order={order} />
 								</Link>

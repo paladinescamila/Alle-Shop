@@ -19,7 +19,7 @@ export default function OrdersCard(props: Props) {
 				</span>
 			</p>
 			<p className='flex items-center gap-2'>
-				<span className='font-medium text-2xl'>${totalPrice.toLocaleString()}</span>
+				<span className='font-medium text-2xl'>${totalPrice}</span>
 				<ChevronRightIcon
 					className={`h-6 w-6 text-black/30 group-hover:text-black cursor-pointer transition-colors duration-300`}
 				/>

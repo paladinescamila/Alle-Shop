@@ -5,8 +5,10 @@ import {useEffect, useState} from 'react';
  * @param {Array} products - array of products
  * @returns {number} total price
  */
-export const getTotalPrice = (products: {product: Product; quantity: number}[]): number =>
-	products.reduce((total, {product, quantity}) => total + product.price * quantity, 0);
+export const getTotalPrice = (products: {product: Product; quantity: number}[]) => {
+	const total = products.reduce((total, {product, quantity}) => total + product.price * quantity, 0);
+	return Number(total.toFixed(2)).toLocaleString();
+};
 
 /**
  * This function changes the text to lowercase, removes special characters and spaces

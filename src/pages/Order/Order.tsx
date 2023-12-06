@@ -1,7 +1,7 @@
 import {Link, useParams} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import OrderCard from '../../components/OrderCard/OrderCard';
-import {ChevronLeftIcon} from '@heroicons/react/24/solid';
+import {ArrowLeftIcon} from '@heroicons/react/24/solid';
 import {useMyContext} from '../../context';
 import {getTotalPrice} from '../../utils';
 
@@ -21,7 +21,7 @@ export default function Order() {
 		<Layout>
 			<div className='flex items-center justify-center w-80 relative mb-6'>
 				<Link to='/orders' className='absolute left-0'>
-					<ChevronLeftIcon className='h-6 w-6 text-black cursor-pointer' />
+					<ArrowLeftIcon className='w-6 inline-block mr-2 text-gray-400 hover:text-black cursor-pointer' />
 				</Link>
 				<h1 className='font-medium text-xl'>My Order</h1>
 			</div>
@@ -33,9 +33,7 @@ export default function Order() {
 							{new Date(order.date).toLocaleTimeString()}
 						</span>
 					</p>
-					<span className='font-medium text-xl'>
-						${getTotalPrice(order.products).toLocaleString()}
-					</span>
+					<span className='font-medium text-xl'>${getTotalPrice(order.products)}</span>
 				</div>
 			) : (
 				<div className='w-full h-[80vh] max-w-screen-lg flex items-center justify-center font-light text-lg text-gray-500'>

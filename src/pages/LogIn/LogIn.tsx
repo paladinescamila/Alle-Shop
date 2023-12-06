@@ -6,7 +6,7 @@ import {EnvelopeIcon, KeyIcon} from '@heroicons/react/24/outline';
 import {useMyContext} from '../../context';
 
 export default function LogIn() {
-	const {user, login, openAlert} = useMyContext();
+	const {user, login, openAlert, goTo} = useMyContext();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
@@ -24,7 +24,10 @@ export default function LogIn() {
 		login(email, password).then(afterLogin);
 	};
 
-	if (user !== null) return null;
+	if (user !== null) {
+		goTo('/account');
+		return null;
+	}
 
 	return (
 		<Layout>

@@ -17,7 +17,10 @@ export default function OrderCard(props: Props) {
 	const decreaseQuantity = () => changeQuantity(product, quantity - 1);
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		changeQuantity(product, Math.floor(Number(e.target.value)));
+		if (e.target.value === '') return;
+		const newQuantity = Math.floor(Number(e.target.value));
+		if (newQuantity > 10000) return;
+		changeQuantity(product, newQuantity);
 	};
 
 	return (
@@ -36,7 +39,7 @@ export default function OrderCard(props: Props) {
 						`$${price}`
 					) : (
 						<>
-							<span>${price * quantity}</span>{' '}
+							<span>${Number((price * quantity).toFixed(2))}</span>{' '}
 							<span className='text-black/50 text-base'>(${price}</span>
 							<XMarkIcon className='h-4 w-4 inline-block text-black/50 my-auto' />
 							<span className='text-black/50 text-base'>{quantity})</span>
@@ -50,13 +53,7 @@ export default function OrderCard(props: Props) {
 								className='h-6 w-6 p-1 border-r border-gray-300 text-black/70 cursor-pointer hover:bg-gray-100 hover:text-black/90 rounded-s'
 								onClick={decreaseQuantity}
 							/>
-							<div
-								contentEditable
-								suppressContentEditableWarning
-								onChange={onChange}
-								className='min-w-[45px] text-center'>
-								{quantity}
-							</div>
+							<input value={quantity} onChange={onChange} className='w-[45px] text-center' />
 							<PlusIcon
 								className='h-6 w-6 p-1 border-l border-gray-300 text-black/70 cursor-pointer hover:bg-gray-100 hover:text-black/90 rounded-e'
 								onClick={increaseQuantity}

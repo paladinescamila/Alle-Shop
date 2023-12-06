@@ -32,7 +32,7 @@ export default function ChangePassword() {
 
 	return (
 		<Layout>
-			<h1 className='font-medium text-xl mb-6 w-80'>
+			<h1 className='font-medium text-xl mb-6 w-80 flex'>
 				<ArrowLeftIcon
 					className='w-6 inline-block mr-2 text-gray-400 hover:text-black cursor-pointer'
 					onClick={() => goTo('/account')}
