@@ -377,18 +377,18 @@ export const MyProvider = (props: ProviderProps) => {
 				const cartData = localStorage.getItem('cart');
 				const ordersData = localStorage.getItem('orders');
 
-				if (userData) setUser(JSON.parse(userData));
-				if (favoritesData) setFavorites(JSON.parse(favoritesData));
-				if (cartData) setCart(JSON.parse(cartData));
-				if (ordersData) setOrders(JSON.parse(ordersData));
+				if (userData) setUser(JSON.parse(userData || 'null'));
+				if (favoritesData) setFavorites(JSON.parse(favoritesData || '[]'));
+				if (cartData) setCart(JSON.parse(cartData || '[]'));
+				if (ordersData) setOrders(JSON.parse(ordersData || '[]'));
 
 				setFirstRender(false);
 			});
 		} else if (!gettingProducts) {
-			localStorage.setItem('user', JSON.stringify(user));
-			localStorage.setItem('favorites', JSON.stringify(favorites));
-			localStorage.setItem('cart', JSON.stringify(cart));
-			localStorage.setItem('orders', JSON.stringify(orders));
+			localStorage.setItem('user', JSON.stringify(user || null));
+			localStorage.setItem('favorites', JSON.stringify(favorites || []));
+			localStorage.setItem('cart', JSON.stringify(cart || []));
+			localStorage.setItem('orders', JSON.stringify(orders || []));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user, favorites, cart, orders]);
