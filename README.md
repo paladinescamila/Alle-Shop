@@ -2,13 +2,14 @@
 
 ![](/public/preview.png)
 
-It's an e-commerce that simulates the visualization of different products, the checkout, favorites, etc.
+It's an e-commerce that simulates the visualization of different products, the checkout, favorites, account, etc.
 
 ## Built with
 
 -   React.js
 -   TypeScript
 -   TailwindCSS
+-   Firebase
 
 ## Author
 
