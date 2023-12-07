@@ -34,7 +34,7 @@ export default function SignUp() {
 	return (
 		<Layout>
 			<h1 className='font-medium text-xl text-center mb-6'>Sign Up</h1>
-			<form className='flex flex-col w-80'>
+			<form className='flex flex-col w-80' onSubmit={(e) => e.preventDefault()}>
 				<div className='w-full relative mb-3'>
 					<input
 						type='text'
